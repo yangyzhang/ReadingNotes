@@ -549,3 +549,88 @@
 	This is because sort() compares strings. [1, 2].toString() is "1,2", so it comes after "1" and before "2". The same thing with join():
 	> c.join('--'); > c; "1--1,2--2"
 
+
+###第五章 原型 prototype
+####5.1 原型属性
+在函数被创建的时候，属性中就包括了prototype属性，初始值为一个空的对象。
+
+	>>>typeof foo.prototype //"object"
+	
+赋予这个空对象的一些属性和方法，并不会对foo函数本身造成什么影响，但不能对用作构造器
+
+#####步骤
+	1. 建个function
+	function Gadget(name,color){
+	this.name = name;
+	this.color = color;
+	}
+	
+	2. prototype添加东西
+	Gadget.prototype = {
+		prcie:100,
+		rating: 3
+	};
+	
+	3.使用原型的方法和属性
+	>>>var newtoy = new Gadget('webcam','black');
+	>>>newtoy.name;//"webcame"
+	>>>newtoy.price // "100"
+	
+######最重要的是live概念，因为在JavaScript中，对象都是通过引用的方式传递的，所以我们随时可以修改原型，并且与之相关的对象也会继承这个改变
+
+	也就是说，根据上面的例子，我们再给Gadget增加一个方法
+	Gadget.prototype.get= function (what){
+		return this[what];	
+			};
+	>>>newtoy.get("price");//100
+	
+	即newtoy在get方法前已经创立，还是可以使用新添加的get，就是因为是对象live的
+
+
+####5.1.4 
+如果遇上对象的自身属性与原型属性同名的话：对象自身属性的优先级高于原型属性
+
+#####hasOwnProperty()
+
+	>>>newtoy.hasOwnProperty('name');//true
+	>>>newtoy.hasOwnproperty('price');//fasle
+	
+####5.15 isPrototypeOf()
+当前对象是否是另一个对象的原型
+
+	例子：
+	1. 定义一个简单对象monkey
+	var monkey = {
+	hair : true;
+	};
+	
+	2. 创建一个Human()的构造器函数，并将其原型属性设置为指向monkey
+	function Human(name){
+		this.name = name;
+	}
+	Human.prototype = monkey;
+	
+	3. 新建一个George的Human对象
+	>>> var george = new Human('George');
+	>>> monkey.isPrototypeOf(george)//true
+
+####5.16 仅在Firefox存在的_proto_
+并不等于prototype，是某个实体的对象的属性
+而prototype的属性是属于构造函数的属性
+_proto_只能在学习或者调试的环境下使用
+
+###5.2 扩展内建对象
+内建对象的构造函数（例如Array,String,Object和Function）都是可以通过其原型进行扩展的
+
+
+###5.4 练习题
+
+1.Create an object called shape that has a type property and a getType() method:
+	
+
+	var shape = {
+	type : "",
+	getType  = function (){
+	return this.type
+	};
+	
