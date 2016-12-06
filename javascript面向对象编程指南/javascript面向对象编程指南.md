@@ -77,15 +77,27 @@
 2. 10 %"0";
 3. undefined == null
 4. typeof “2e+2”
+5. var a = b = 1; b为全局变量，区别于var a = 1,b = 1;
+
+	function foo(){
+		var a = b = 1;
+	}
+	foo();
+	console.log(typeof a);
+	console.log(typeof b);
 
 
 
+答案： 
 
-答案： 1. undefined 
-	    2. NaN
-	    3. true
-	    4. string
-
+1. undefined 
+2. NaN
+3. true
+4. string
+5. "undefined"
+	"number"
+	
+	
 ##函数
 ####函数声明
 		function sum (a,b){
@@ -159,7 +171,8 @@
 		因为函数域始终优先于全局域，所以局部变量a会覆盖掉所以的与它同名的全局变量。尽管在alert()第一次被调用时，a还没有被正式定义（即该值为undefined），但该变量本身已经存在于本地空间了
 
 ####函数也是数据类型
-#####函数标识记法
+#####函数标识记法（函数表达式）
+######区别于函数声明，函数声明会被预先处理
 			var f = function() {return 1;}
 			typeof f //“function”
 #####匿名函数
@@ -316,10 +329,28 @@
 			2. 无论多么复杂的对象，都是继承自object，并拥有它所有的方法
 
 ####4.2.2  Array
-			join()
-			slice() 提取字符串的某个部分
-			splice() 	插入删除或者替换数组的元素
-			多看几遍！！
+#####join()
+
+	var arr = [1,2,3]
+	arr.join()//"1,2,3"
+	arr.join("_")//"1_2_3"
+			
+#####slice() 提取字符串的某个部分
+arr.slice([从这开始]，(到这结束))
+arr.slice([从这开始]）
+
+	var arr=[1,2,3,4,5]
+	arr.slice(1,3);//[2,3]
+	arr.slice(1);//[2,3,4,5]
+	
+
+#####splice() 	插入,删除或者替换数组的元素
+
+	var arr = [1,2,3,4,5]
+	arr.splice(2)//return [3,4,5]
+	arr[1,2]//原来的arr被修改
+	
+	arrayObject.splice(index,howmany,item1,.....,itemX)	
 
 ####4.2.3 Function
 			1.
@@ -332,7 +363,8 @@
 
 				call () 和apply () 通过这个两个方法，能让对象去借用其他对象的方法为己用。
 
-		🌰 
+![](7.png)
+![](8.png)
 		
 		这种情况我们可以调用say()
 
@@ -345,7 +377,7 @@
 
 		下面两行代码都是等效的
 		
-￼
+￼![](9.png)
 
 #####4.2.3.3  arguments对象
 			1. arguments.callee  则该函数在被调用时就会被返回自身的应用
@@ -506,9 +538,9 @@
 			try{
 				iDontExist();
 				}catch (e){
-					//do nothing
+					//do nothing 发生异常才执行
 					}finally{
-						// do nothing 
+						// do nothing 无论发不发生异常都执行
 						}
 
 			Error对象的两个基础属性
@@ -521,10 +553,24 @@
 ￼![](3.png)
 
 ￼
-
-
+####易误解
+try{
+	
+	try{
+		throw new Error("oops");
+	}
+	finally{
+		console.log{"finally"};
+	}
+}
+catch(e){
+	console.error("oops",e.message);
+}
 ￼
-
+#####框中的这层因为没有catch所以会跳到外层的catch来处理，但需要先执行finally
+执行后：finally
+		outer
+		oops
 
 ####难题：
 
@@ -622,6 +668,15 @@ _proto_只能在学习或者调试的环境下使用
 ###5.2 扩展内建对象
 内建对象的构造函数（例如Array,String,Object和Function）都是可以通过其原型进行扩展的
 
+####5.2.2 一些原型陷阱
+处理原型问题时，注意以下两种行为：
+
+- 将原型对象执行完全替换的时候，可能会触发原型链中的某种异常（exception）
+- prototype.constructor属性是不可靠的
+
+即我们将prototype替换，但\_proto\_这个属性，能使对象仍然使用原来的prototype里的东西
+
+######当我们重写某个对象的prototype时，重置相应的constructor属性是一个好习惯
 
 ###5.4 练习题
 
@@ -633,4 +688,31 @@ _proto_只能在学习或者调试的环境下使用
 	getType  = function (){
 	return this.type
 	};
+
+##第六章 继承
+
+###6.1原型链
+通过原型来实现继承关系链
+####6.1.1原型链例子
+	function Shape(){
+		this.name = 'shape';
+		this.toString = function(){return this.name;}
+	}
+
+	function TwoDShape(){
+		this.name = '2D shape';
+	}
 	
+	fucntion Triangle(side,height){
+		this.name = 'Triangele';
+		this.side = side;
+		this.height = height;
+		this.getArea = function(){return this.side * this.height / 2;}
+	}
+	
+	TwoDShape.prototype = new Shape();
+	Triangle.prototype = new TwoDShape();
+	
+	//我们将对象的prototype属性重写时，需要重置对constructor属性
+	TwoDShape.prototype.constructor = TwoDShape;
+	Triangle.prototye.constructor = Triangle;
