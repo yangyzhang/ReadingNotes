@@ -715,4 +715,19 @@ _proto_只能在学习或者调试的环境下使用
 	
 	//我们将对象的prototype属性重写时，需要重置对constructor属性
 	TwoDShape.prototype.constructor = TwoDShape;
-	Triangle.prototye.constructor = Triangle;
+	Triangle.prototype.constructor = Triangle;
+	
+	
+####6.1.2 将共享属性迁移到原型中去
+######强调！必须在扩展原型对象之前完成继承关系的构建
+![](10.png)
+![](11.png)
+
+###6.2 new F()
+不懂，待补
+
+
+###6.3 uber ——子对象访问父对象的方式
+
+不懂，待补
+
