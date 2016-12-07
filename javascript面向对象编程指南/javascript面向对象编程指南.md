@@ -660,7 +660,7 @@ catch(e){
 	>>> var george = new Human('George');
 	>>> monkey.isPrototypeOf(george)//true
 
-####5.16 仅在Firefox存在的_proto_
+####5.16 仅在Firefox存在的\_proto\_
 并不等于prototype，是某个实体的对象的属性
 而prototype的属性是属于构造函数的属性
 _proto_只能在学习或者调试的环境下使用
