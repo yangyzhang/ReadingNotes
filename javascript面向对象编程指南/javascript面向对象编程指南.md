@@ -731,3 +731,51 @@ _proto_只能在学习或者调试的环境下使用
 
 不懂，待补
 
+
+#第六章需要重新阅读
+
+
+##第七章 浏览器环境
+###7.2 BOM与DOM
+页面的JavaScript代码有一系列可以访问的对象，可以分为两组：
+
+- 当前载入页面所拥有的对象（文档） DOM
+- 页面外事物所拥有的对象（浏览器窗口和桌面屏幕）BOM
+
+###7.3 BOM
+可以通过全局对象window和window.screen来访问这些BOM对象
+
+####7.3.1 window对象
+环境中所以的全局变量都是window的属性，JavaScript核心函数也都是window对象的方法，window对象还有一个作用，提供各种关于浏览器环境的私有数据，例如window对象中各种frame、iframe等等
+
+####7.3.2 window.navigator
+navigator是一个用于反映浏览器本身及其功能信息的对象。
+navigator。userAgent是一个用于浏览器识别的长字符串，但我们不要依赖这种用户带你字符串，因为很难追踪到所有版本，而且用户可以对该字符串进行修改，伪装成其他浏览器
+  
+用特性监听法比较好，也就是直接检验浏览器是否有该功能
+
+####7.3.3 firebug的备忘功能
+在控制台输入navigator，就可以得到一份完整的属性列表，以及这些属性的当前值
+
+####7.3.4 window.location
+location属性是一个用于存储当前载入页面URL信息的对象。  
+
+- location.href显示的是完整的URL
+- location.hostname显示相关的域名
+
+循环列出location对象的完整属性列表
+
+	for(var i in location) {console.log(i + ' = "' + location[i] + '"')} 
+	
+	href
+	hash
+	host
+	hostname
+	pathname
+	port
+	protocol
+	search
+
+location对象还提供三个方法，分别是reload()、assign()和replace()  
+location.replace方法与assign基本相同，只不过它不会再浏览器的历史记录表中留下记录
+
