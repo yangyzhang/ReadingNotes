@@ -796,28 +796,35 @@ history.back() 进行浏览器的后退和前进
 window.frames属性是当前页面中所以frame元素的集合。这里没有对frame和iframe做出区分。无论当前页面中是否存在frame元素，window.frames属性总是存在的，并指向了window本身    
 
 每一个frame元素都包含一个别的页面，这些页面也有自己的全局window对象。 
+
 	<iframe name="myframe" src="about:blank" />
 访问iframe元素的window对象：
+	
 	>>>window.frames[0]
 	>>>window.frames[0].window
 	>>>frames[0].window
 	>>>frames[0]
 
 我们也可以通过子元素来访问父级页面：  
+	
 	>>>frame[0].parent === window; //true
 
 通过一个**top**的属性，可以访问到当前最顶层页面（即包含所有其他frame元素的页面）中的任何frame元素
+	
 	>>>window.frame[0].window.top === window //true
 
 **self**属性，作用基本等于window
+	
 	>>>self === window //true
 
 如果frame元素拥有name属性，可以通过名字来访问
+	
 	>>>window.frames['myframe'] === window.frames[0] // true
 
 #### 7.3.7 window.screen
 提供浏览器以外的桌面信息  
 可以查看当前屏幕的实际状态（如分辨率） 
+	
 	>>>screen.width //1440
 	>>>screen.availWidth //1440
 	>>>screen.height//900
@@ -827,14 +834,19 @@ height指总分辨率，availHeight指出去操作系统菜单（例如windows�
 
 #### 7.3.8 window.open()/close()
 ##### window.open()打开新窗口
+
 - 新窗口的URL
 - 新窗口的名字，同于form标签
 - 还有一个逗号分割的功能性列表，例如：
+	
 	- 尺寸的可调整性
 	- 弹出窗的长与宽
 	- 状态栏—设置状态栏的可见性
 window.open()会返回一个新建浏览器实例的window对象
+	
+
 	var win  = window.open('http://www.baidu.com','baidu','width=300,height=300,resizable=yes');
+
 **注意添加http://，没有的话是在当前页面下的子页面/baidu.com**
 通过检查win是否为falsy值来判断弹出窗是否被屏蔽了
 
@@ -848,22 +860,31 @@ window.open()会返回一个新建浏览器实例的window对象
 ##### window.alert()
 ##### window.prompt()
 提供一定的文本输入功能
+
 	>>> var answer = prompt('What's your name?');
 			console.log(answer); //input
+
 - 按cancel或者X以及ESC退出，会返回null
 - 没有输任何东西就单击OK或者回车，会返回”” 空字符串
 - 还可以接受第二个字符串参数，主要用做输入框的默认值
 ##### window.confirm()
-为用户提供两个选项——ok与cancel
-	>>> var answer = confirm('Are you cool?');
+	为用户提供两个选项——ok与cancel   
+	
+
+	var answer = confirm('Are you cool?');
+			
+			
 			console.log(answer); //true or false
 
 #### 7.3.11 
 ##### window.setTimeout() 指定毫秒数后执行某段既定代码
+	
 	>>>function boo() {alert('Boo!';)}
 	>>> var id = setTimeout(boo,2000);  //返回该函数的超时ID
 	>>>clearTimeout(id); //取消当前的超时
+
 ##### window.setInterval() 每隔一段毫秒数重新执行这段代码
+	
 	>>>function boo() {console.log('Boo!';)}
 	>>> var id = setInterval(boo,2000);  //返回该函数的超时ID
 	>>>clearInterval(id); //取消当前的超时
