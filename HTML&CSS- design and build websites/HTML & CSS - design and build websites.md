@@ -15,7 +15,7 @@
 - \<q\>\</q\>//段落中较短的引用，但IE不支持，所以少用
 - \<abbr\>\</abbr\> //使用缩写词，用标签的title属性显示显示完整形态。HTML4中专门的标签\<acronym\>,HTML5后只用\<abbr\>
 
-	<p><abbr title="Professor">Prof</abbr> David is a nice guy.</p>
+	\<p\>\<abbr title="Professor"\>Prof\</abbr\> David is a nice guy.\</p\>
 
 - \<cite\>\</cite\> //引用一部作品时（书籍、影视等）浏览器表示为斜体
 - \<dfn\>\</dfn\>//新术语，给出定义的时候。浏览器表示为斜体，Safari和chrome不改变外观
@@ -74,8 +74,8 @@ _透明PNG格式不完全支持旧浏览器，例如IE6
 
 ### HTML5： 图形和图形说明
 将图像和图像说明相关联
-	<figure>
-		<img />
+\<figure\>
+	    <img />
 	<br / >
 	<figcaption>blablabla</figcation>
 	</figure>
@@ -124,7 +124,7 @@ __\<th\>可以帮助那些使用屏幕阅读器的用户，提升搜索引擎为
 action特性：值为一个页面的URL，这个页面用来在用户提交表单时接收表单中的信息  
 method特性分为两种： get/ post 
 
-#### GET 特性：   
+#### GET 特性：  
 
 表单中的值被放在action的URL末尾，适用于以下情形：
 
@@ -309,3 +309,243 @@ name属性
 - author
 - expires
 - pragma
+
+## Flash
+待补
+
+## 行内(内联)元素(inline)和块级元素(block)的区别：
+
+ - 行内元素与块级元素直观上的区别：
+	- 行内元素会在一条直线上排列，都是同一行的，水平方向排列
+	- 块级元素各占据一行，垂直方向排列。块级元素从新行开始结束接着一个断行。
+- 块级元素可以包含行内元素和块级元素。行内元素不能包含块级元素。
+- 行内元素与块级元素属性的不同，主要是盒模型属性上
+	- 行内元素设置width无效，height无效(可以设置line-height)，margin上下无效，padding上下无效
+
+详细阅读：
+http://blog.csdn.net/chen_zw/article/details/8713205
+http://www.imooc.com/article/6753
+
+行内块元素的兼容性使用？  
+兼容性：display:inline-block;display:inline;zoom:1;  
+http://www.jb51.net/css/418589.html
+
+## 使用外部CSS
+\<link\>
+
+- href(CSS路径)
+- type(页面所链接文档的类型) text/css
+- rel(表明HTML页面和被连接文件的关系) stylesheet
+
+
+内部CSS    
+\<style\>尽量避免使用
+
+## CSS选择器（最常用）
+
+- 通用选择器 \*{}
+- 类型选择器（元素选择器）a{}
+- class选择器
+- id选择器
+- 子元素选择器 p\>a{}
+- 后代选择器 p a{}
+- 相邻兄弟选择器 h1 + p{} 位于h1元素后的第一个p元素，对其他p元素不起作用
+- 普通兄弟选择器 p\~ul{} p之后所以的ul元素
+
+## 颜色
+
+- RGB值（每个0\~255）
+- 十六进制编码
+- 颜色名称
+- HSL(CSS3引入)
+
+### 对比度
+
+- color和background-color对比度低时，难以阅读
+- 较高时，容易阅读，但大量文字时，难以阅读
+- 白色背景上深灰文本，或者黑色背景上灰白文本，增加可读性
+
+### CSS3：opacity
+0.0\~1.0  
+rgba(0,0,0,0.5) 最后一位数是opacity  
+以防浏览器不识别rgba，应该在之前加上rgb  
+
+
+### CSS3：HSL
+通过色调，饱和度，明度值确定颜色
+
+色调：0-360  
+饱和度：0%-100%（0%某种灰色） 
+明度：0%黑色 100%白色  
+
+HSLA（0，20%，100%，0.5） 最后一位opacity
+
+## 文本
+### 字体术语
+
+- serif衬线字体（笔末额外的装饰）：适用于大量文字的阅读
+	- Georgia
+	- Times
+	- Times New Roman
+- sans-serif无衬线字体：设计更加简洁
+	- Arial
+	- Verdana
+	- Helvetica
+- monospace等款字体：显示代码
+	- Courier
+	- Courier New
+- cursive草书字体：手写风格
+	- Comic Sans MS
+	- Monotype Corsiva
+- fantasy虚幻字体：装饰字体，用于标题，不适合文章
+	- Impact
+	- Haettenschweiler
+
+**浏览器至少支持每组字体中的一种，所以通常在偏爱的字体后面加上通用字体名**  
+
+	如果想要衬线字体serif：
+	font-family:Georgia,Times,serif;
+
+### font-siza
+
+- px
+- %(浏览器默认16px为100%)
+- EM(一个M的宽度)
+
+所以后面两个，如果用户改变浏览器默认值，则会改变。px根据分辨率改变大小。
+
+### font-weight:
+
+- normal
+- bold
+
+### font-style
+
+- normal 
+- italic(斜体)
+- oblique（倾斜）
+### text-transform
+
+- uppercase
+- lowercase
+- capitalize 每个单词都首字母大写
+
+### text-decoration
+
+- none(任何效果都删除)
+- underline
+- overline
+- line-through
+- blink(不可取annoying)
+
+### line-height
+行间距 就是一个字的最下边到下一排字的最上边的距离  
+
+初始值最好设定为1.4em\~1.5em之间，这样用户调整自己的字体大小，也不会影响行间距，不要使用px
+
+### letter-spacing/word-spacing
+
+### text-align 对齐方式
+控制文本的对齐方式
+
+- left
+- right
+- center
+- justify (文本两端对齐)
+
+### vertical-align 垂直对齐
+通常用于内联元素
+
+### text-indent 文本缩进
+将元素的首行文字进行缩进，通常用em或者px进行定义。可以使用负值，这样文字就推出了屏幕外。（针对看不见图片的人或者搜索引擎）
+
+### CSS3 text-shadow
+四个值:
+
+- 阴影向左或向右的距离
+- 向上或向下的距离
+- 模糊度
+- 阴影颜色
+
+### overflow 
+盒子内容超过盒子本身如何显示：
+
+- hidden (将溢出内容隐藏)
+- scroll (增加滚动条，查看其余内容)
+
+### border-width
+
+- border-top-width 等
+
+### border-style
+
+- solid
+- dotted
+- dash
+- hidden/none
+
+- border-top-style等
+
+### border-color/border
+border:1px solid black;
+
+### 内容居中
+内容在盒子上居中，将左右边距设为auto
+
+### IE6盒子模型
+盒子的padding和margin包含在他的宽度上  
+解决方法：
+提供DOCTYPE申明，使用HTML5,HTML4严格版
+
+### 内联元素和块级元素的转换display
+
+- inline
+- block
+- inline-block
+	- 使块级元素像内联元素那样浮动
+- none
+	- 使用这个属性注意：不应该在内联盒子里创建块级元素
+
+### visibility
+允许隐藏盒子，但保留空间
+
+- hidden
+- visible
+
+### CSS3边框图像
+
+- URL
+- 切割图片的位置
+- 如何处理直边
+	- stretch
+	- repeat
+	- round
+	p.one {
+					-moz-border-image: url("images/dots.gif") 11 11 11 11 stretch;
+					-webkit-border-image: url("images/dots.gif") 11 11 11 11 stretch;
+					border-image: url("images/dots.gif") 11 11 11 11 stretch;}
+
+### CSS3 box-shadow
+
+	p.one { 
+					-moz-box-shadow: -5px -5px #777777; 
+					-webkit-box-shadow: -5px -5px #777777; 
+					box-shadow: -5px -5px #777777;}
+
+语法
+box-shadow: h-shadow v-shadow blur spread color inset;
+注释：box-shadow 向框添加一个或多个阴影。该属性是由逗号分隔的阴影列表，每个阴影由 2-4 个长度值、可选的颜色值以及可选的 inset 关键词来规定。省略长度的值是 0。
+
+- h-shadow必需。水平阴影的位置。允许负值。
+- v-shadow必需。垂直阴影的位置。允许负值。
+- blur可选。模糊距离。
+- spread可选。阴影的尺寸。
+- color可选。阴影的颜色。请参阅 CSS 颜色值。
+- inset可选。将外部阴影 (outset) 改为内部阴影。
+
+### border-radius
+
+- border-top-left-radius:2em;
+- border-top-right-radius:2em;
+- border-bottom-right-radius:2em;
+- border-bottom-left-radius:2em;
