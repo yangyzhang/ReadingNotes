@@ -426,6 +426,7 @@ HSLA（0，20%，100%，0.5） 最后一位opacity
 - normal 
 - italic(斜体)
 - oblique（倾斜）
+
 ### text-transform
 
 - uppercase
@@ -476,6 +477,7 @@ HSLA（0，20%，100%，0.5） 最后一位opacity
 - hidden (将溢出内容隐藏)
 - scroll (被修剪，增加滚动条，查看其余内容)
 - auto(如果被修剪，就已scroll状态出现)
+
 ### border-width
 
 - border-top-width 等
@@ -756,5 +758,70 @@ margin：设置边距
 		</body>
 	</html>
 
+## HTML5布局
+以前都用\<div\>将每个归类   
+HTML5进行了分类，有助于屏幕阅读软件和搜索浏览器
+
+### \<header\>\<footer\>
+可以用在：
+
+- 每个网站顶部的主页眉和底部的主页脚
+- 页面中单独的\<article\>或\<section\>的页眉和页脚
+
+### \<nav\>导航
+### \<article\>
+\<article\>可以彼此嵌套
+
+### \<aside\>附属信息
+
+- 在\<article\>内部出现时，应该包含与当前文章相关的信息，而不必涉及页面的整体信息
+- 在\<article\>外部出现时，应该包含与整个页面相关的内容
+
+### \<section\>部分
+将相关的内容集中在一块，而且每个部分通常都带有一个标题。  
+
+由于\<section\>集中了相关的项目，因此它可能包含具有相同主题或者用途的多个不同\<article\>元素  
+相反，如果页面内有一篇很长的文章，\<section\>也可以用来将这篇文章分成几个部分  
+
+\<section\>不能用来做整个页面的容器，应该用\<div\>
+
+### \<hgroup\>标题组
+将一个或者多个h1到h6组合在一块，将它们当做一个标题看待
+
+### \<figure\>\<figcaption\>
+用来包含一篇文章中引用的任何内容  
+\<figure\> 标签规定独立的流内容（图像、图表、照片、代码等等）。
+figure 元素的内容应该与主内容相关，但如果被删除，则不应对文档流产生影响。  
+所以文章中不可缺少的部分不要用
+
+请使用 \<figcaption\> 元素为 figure 添加标题（caption）。
+
+### 为块级元素添加链接
+HTML5新用法
+
+### 让浏览器识别新元素
+
+	header,section,footer,aside,nav,artcle,figure{
+			display:block;
+	}
+
+IE9之前 JavaScript  HTML5shiv   HTML5shim
+
+## 实用信息
+### SEO
+
+- 站内优化
+- 站外优化
+
+#### 站内优化
+在七个位置加入搜索这个网站的关键词
+
+- 页面标题\<title\>
+- URL
+- 标题h1-hn
+- 正文二到三次的关键词
+- 链接文本（而不是单纯的单击这里）
+- 图像的alt
+- 页面描述\<meta\>
 
 [image-1]:	1.png
