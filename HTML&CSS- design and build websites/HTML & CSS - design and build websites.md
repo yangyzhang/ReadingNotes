@@ -72,7 +72,7 @@
 - 透明GIF: 如果图片的透明部分有直边，并且这部分是完全透明，可以选用GIF保存
 - 如果图片的透明部分含斜边、圆形，或者透明部分是半透明，或者投影，保存为PNG
 
-_透明PNG格式不完全支持旧浏览器，例如IE6
+\_透明PNG格式不完全支持旧浏览器，例如IE6
 
 ### HTML5： 图形和图形说明
 将图像和图像说明相关联
@@ -325,7 +325,7 @@ name属性
 	- 行内元素设置width无效，height无效(可以设置line-height)，margin上下无效，padding上下无效
 
 详细阅读：
-http://blog.csdn.net/chen_zw/article/details/8713205
+http://blog.csdn.net/chen\_zw/article/details/8713205
 http://www.imooc.com/article/6753
 
 行内块元素的兼容性使用？  
@@ -340,7 +340,7 @@ http://www.jb51.net/css/418589.html
 - rel(表明HTML页面和被连接文件的关系) stylesheet
 
 
-内部CSS    
+内部CSS  
 \<style\>尽量避免使用
 
 ## CSS选择器（最常用）
@@ -408,11 +408,11 @@ HSLA（0，20%，100%，0.5） 最后一位opacity
 	如果想要衬线字体serif：
 	font-family:Georgia,Times,serif;
 
-### font-siza
+### font-size
 
 - px
 - %(浏览器默认16px为100%)
-- EM(一个M的宽度)
+- em(一个m的宽度)
 
 所以后面两个，如果用户改变浏览器默认值，则会改变。px根据分辨率改变大小。
 
@@ -469,12 +469,13 @@ HSLA（0，20%，100%，0.5） 最后一位opacity
 - 模糊度
 - 阴影颜色
 
-### overflow 
+### overflow
 盒子内容超过盒子本身如何显示：
 
+- visible(默认状态)
 - hidden (将溢出内容隐藏)
-- scroll (增加滚动条，查看其余内容)
-
+- scroll (被修剪，增加滚动条，查看其余内容)
+- auto(如果被修剪，就已scroll状态出现)
 ### border-width
 
 - border-top-width 等
@@ -523,16 +524,16 @@ border:1px solid black;
 	- repeat
 	- round
 	p.one {
-					-moz-border-image: url("images/dots.gif") 11 11 11 11 stretch;
-					-webkit-border-image: url("images/dots.gif") 11 11 11 11 stretch;
-					border-image: url("images/dots.gif") 11 11 11 11 stretch;}
+		            -moz-border-image: url("images/dots.gif") 11 11 11 11 stretch;
+		            -webkit-border-image: url("images/dots.gif") 11 11 11 11 stretch;
+		            border-image: url("images/dots.gif") 11 11 11 11 stretch;}
 
 ### CSS3 box-shadow
 
 	p.one { 
-					-moz-box-shadow: -5px -5px #777777; 
-					-webkit-box-shadow: -5px -5px #777777; 
-					box-shadow: -5px -5px #777777;}
+	                -moz-box-shadow: -5px -5px #777777; 
+	                -webkit-box-shadow: -5px -5px #777777; 
+	                box-shadow: -5px -5px #777777;}
 
 语法
 box-shadow: h-shadow v-shadow blur spread color inset;
@@ -551,3 +552,209 @@ box-shadow: h-shadow v-shadow blur spread color inset;
 - border-top-right-radius:2em;
 - border-bottom-right-radius:2em;
 - border-bottom-left-radius:2em;
+
+## 列表、表单和表格
+### list-style-type
+控制你项目符号的样式或形状  
+常用于ul、ol、li元素  
+
+无序列表:  
+
+- none
+- disc•
+- circle○
+- square■
+
+有序列表：
+
+- decimal 1 2 3
+- decimal-leading-zero 01 02 03
+- lower-alpha a b c
+- upper-alpha A B C
+- low-roman ⅰ ⅱ ⅲ
+- upper-roman Ⅰ Ⅱ Ⅲ Ⅳ
+
+### list-style-image
+可用于ul、li  
+
+	ul
+	  {
+	  list-style-image:url("/i/arrow.gif");
+	  list-style-type:square;
+	  }
+
+### list-style-position
+表明标记显示的位置
+
+- outside (未使用该属性时的默认状态)
+- inside （在文本块内部，文本块会被缩进）
+
+### list-style
+允许按任意顺序表示标记的type, image, position
+
+	ul{
+	list-style: inside circle;
+	}
+
+### 表格：
+empty-cells 是否显示空单元格的边框
+
+- show
+- hide
+
+border-spacing:控制单元格之间的空隙  
+
+border-collapse: 为单元格增加边框，单元格相邻的地方，边框是外边框的两倍，为了避免这种情况，使用border-collapse  
+
+- collapse:相邻边框合并为一个边框(border-spacing被忽略)
+- separate （border-spacing生效）
+
+## 布局
+### 控制元素的位置
+
+- 普通流
+- 绝对定位
+- 相对定位
+
+### position:static
+### position:relative
+以其在普通流的位置作为起点。
+用top/bottom/left/right指定移动
+
+### position:absolute
+脱离普通流，不再影响页面其他的位置 
+
+### positon:fixed
+固定定位  相对浏览器窗口定位，当窗口滚动时，这类元素的位置保持不变。
+
+### z-index
+
+### float
+使用float属性，将文档流的元素在它的父元素里向左或者向右排列，父元素的其他内容会在它的周围浮动  
+  
+同时需要设置width值，否则显示效果会不一致  
+
+### 用float并排元素
+用float将所有盒子左移进行排列。
+![][image-1]
+
+段落In 1985… 因为在第三段的下面有足够空间展开，但因为第二段阻挡了左移，所以呈现这样的效果，我们应该用清除浮动
+
+### 清除浮动 clear
+clear用于一个盒子的左侧或者右侧不允许浮动。  
+元素盒子的边不能和前面的浮动元素相邻
+
+- left
+- right
+- both
+- none
+
+**自己理解：float影响其他元素，但是clear仅仅影响本身，即float让父元素的其他元素环绕自己，但如果其他元素使用clear，就不收影响了，去下一行了。**
+
+### 浮动元素的父元素问题
+若一个父元素内只有浮动元素，这个盒子的大小无法自适应撑开。  
+两种方法解决：
+
+- 在浮动元素的后面在一个元素，clear:both
+- 父元素增加一个属性overflow:hidden
+
+### 利用浮动创建多列式布局
+用div表示每一列  
+
+width：设置列宽  
+float:排成一行  
+margin：设置边距
+
+### 固定宽度布局
+不会因为用户的扩大或者缩小浏览器窗口而发生变化。  
+设计通常以像素作为衡量单位
+
+### 流体布局
+随着浏览器的扩大或者缩小而伸展  
+通常使用百分比
+
+### 多个样式表
+
+- @import
+	-  HTML文件连接到一个样式表，然后这个样式表内来使用@import来导入其他样式表，且必须在其他其他规则的前面
+- link
+	- 多个link引入样式表
+	- 后出现的css优先级比前面的高
+
+## 图像
+为图片指定大小能有助于流畅的加载页面。因为HTML和CSS会在图面前加载，告知图片的大小，可以预留图片空间，这样页面不必等待图片加载完成即可显示出来
+
+### 将图片居中
+
+1. 设display:block;
+2. margin: 0 auto;
+
+### 子画面sprite
+只需请求一个图像，用background-position移动图像
+
+	
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Image Rollovers and Sprites</title>
+			<style type="text/css">
+				a.button {
+					height: 36px;
+					background-image: url("images/button-sprite.jpg");
+					text-indent: -9999px;
+					display: inline-block;} //a为内联元素，设置成inline-block可以设置宽度和高度
+				a#add-to-basket {
+					width: 174px;
+					background-position: 0px 0px;}
+				a#framing-options {
+					width: 210px;
+					background-position: -175px 0px;}
+				a#add-to-basket:hover {
+					background-position: 0px -40px;}
+				a#framing-options:hover {
+					background-position: -175px -40px;}
+				a#add-to-basket:active {
+					background-position: 0px -80px;}
+				a#framing-options:active {
+					background-position: -175px -80px;}
+			</style>
+		</head>
+		<body>
+			<a class="button" id="add-to-basket">Add to basket</a>
+			<a class="button" id="framing-options">Framing options</a>
+		</body>
+	</html>
+
+### CSS3：渐变
+不同浏览器的设置也不同，下面例子是线性渐变
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Gradient</title>
+			<style type="text/css">
+				#gradient {
+					/* fallback color */
+					background-color: #66cccc; 
+					/* fallback image */
+					background-image: url("images/fallback-image.png"); 
+					/* Firefox 3.6+ */
+					background-image: -moz-linear-gradient(#336666, #66cccc);
+					/* Safari 4+, Chrome 1+ */
+					background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#66cccc), to(#336666));
+					/* Safari 5.1+, Chrome 10+ */
+					background-image: -webkit-linear-gradient(#336666, #66cccc); 
+					/* Opera 11.10+ */
+					background-image: -o-linear-gradient(#336666, #66cccc);
+	   				height: 150px;
+					width: 300px;}
+			</style>
+		</head>
+		<body>
+			<div id="gradient">
+			</div>
+		</body>
+	</html>
+
+
+[image-1]:	1.png
