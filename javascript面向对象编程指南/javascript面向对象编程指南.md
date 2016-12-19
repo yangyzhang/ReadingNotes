@@ -97,8 +97,6 @@
 4. string
 5. "undefined"
 	"number"
-	 
-	 
 ## 函数
 #### 函数声明
 	    function sum (a,b){
@@ -335,7 +333,6 @@
 	var arr = [1,2,3]
 	arr.join()//"1,2,3"
 	arr.join("_")//"1_2_3"
-		 
 ##### slice() 提取字符串的某个部分
 arr.slice([从这开始]，(到这结束))
 arr.slice([从这开始]）
@@ -366,7 +363,7 @@ arr.slice([从这开始]）
 
 ![][image-1]
 ![][image-2]
-	 
+  
 	    这种情况我们可以调用say()
 	
 	    >>> some_obj.say.call (my_obj, ‘ Dude’);
@@ -377,7 +374,7 @@ arr.slice([从这开始]）
 	    apply() 不同的就是参数的传递形式，这里目标函数所需要的参数都是通过一个数组来传递的
 	
 	    下面两行代码都是等效的
-	 
+  
 ￼![][image-3]
 
 ##### 4.2.3.3  arguments对象
@@ -550,7 +547,7 @@ arr.slice([从这开始]）
 
 🌰
 ![][image-4]
-![][image-5]      
+![][image-5]  
 ￼![][image-6]
 
 ￼
@@ -782,49 +779,49 @@ location.replace方法与assign基本相同，只不过它不会再浏览器的�
 
 #### 7.3.5 window.history
 window.history属性允许我们在同一个浏览器会话中存储有限数量的访问记录。
-	
+ 
 	>>>window.history.length //5
 	>>>window.history\[0\] //不被允许
 但我们可以用history.forward()  
 history.back() 进行浏览器的后退和前进  
-或则还可以   
-	history.go(-1) ;//history.back()
+或则还可以  
+    history.go(-1) ;//history.back()
 	history.go(0);//重置当前页面
 	history.go(1);//history.forward();
 
 #### 7.3.6 window.frames
-window.frames属性是当前页面中所以frame元素的集合。这里没有对frame和iframe做出区分。无论当前页面中是否存在frame元素，window.frames属性总是存在的，并指向了window本身    
+window.frames属性是当前页面中所以frame元素的集合。这里没有对frame和iframe做出区分。无论当前页面中是否存在frame元素，window.frames属性总是存在的，并指向了window本身  
 
 每一个frame元素都包含一个别的页面，这些页面也有自己的全局window对象。 
 
 	<iframe name="myframe" src="about:blank" />
 访问iframe元素的window对象：
-	
+ 
 	>>>window.frames[0]
 	>>>window.frames[0].window
 	>>>frames[0].window
 	>>>frames[0]
 
 我们也可以通过子元素来访问父级页面：  
-	
+ 
 	>>>frame[0].parent === window; //true
 
 通过一个**top**的属性，可以访问到当前最顶层页面（即包含所有其他frame元素的页面）中的任何frame元素
-	
+ 
 	>>>window.frame[0].window.top === window //true
 
 **self**属性，作用基本等于window
-	
+ 
 	>>>self === window //true
 
 如果frame元素拥有name属性，可以通过名字来访问
-	
+ 
 	>>>window.frames['myframe'] === window.frames[0] // true
 
 #### 7.3.7 window.screen
 提供浏览器以外的桌面信息  
 可以查看当前屏幕的实际状态（如分辨率） 
-	
+ 
 	>>>screen.width //1440
 	>>>screen.availWidth //1440
 	>>>screen.height//900
@@ -838,12 +835,11 @@ height指总分辨率，availHeight指出去操作系统菜单（例如windows�
 - 新窗口的URL
 - 新窗口的名字，同于form标签
 - 还有一个逗号分割的功能性列表，例如：
-	
 	- 尺寸的可调整性
 	- 弹出窗的长与宽
 	- 状态栏—设置状态栏的可见性
 window.open()会返回一个新建浏览器实例的window对象
-	
+ 
 
 	var win  = window.open('http://www.baidu.com','baidu','width=300,height=300,resizable=yes');
 
@@ -853,16 +849,16 @@ window.open()会返回一个新建浏览器实例的window对象
 #### 7.3.9 window.moveTo()/resizeTo()
 	window.moveTo(100,100) 将当前浏览器窗口移动到屏幕坐标x=100,y=100的位置（指的是窗口左上角的坐标）
 	window.moveBy(10,10) 将窗口的当前位置右移10个单位，并同时下移10个单位
-		resizeTo(x,y)和rezieBy类似，不过是调整窗口的大小
+	    resizeTo(x,y)和rezieBy类似，不过是调整窗口的大小
 	❗️并不建议使用这些方法来解决问题
 
-#### 7.3.10 
+#### 7.3.10
 ##### window.alert()
 ##### window.prompt()
 提供一定的文本输入功能
 
 	>>> var answer = prompt('What's your name?');
-			console.log(answer); //input
+	        console.log(answer); //input
 
 - 按cancel或者X以及ESC退出，会返回null
 - 没有输任何东西就单击OK或者回车，会返回”” 空字符串
@@ -870,27 +866,168 @@ window.open()会返回一个新建浏览器实例的window对象
 ##### window.confirm()
 	为用户提供两个选项——ok与cancel   
 	
-
-	var answer = confirm('Are you cool?');
-			
-			
-			console.log(answer); //true or false
-
-#### 7.3.11 
-##### window.setTimeout() 指定毫秒数后执行某段既定代码
 	
+	var answer = confirm('Are you cool?');
+	
+	
+	        console.log(answer); //true or false
+
+#### 7.3.11
+##### window.setTimeout() 指定毫秒数后执行某段既定代码
+ 
 	>>>function boo() {alert('Boo!';)}
 	>>> var id = setTimeout(boo,2000);  //返回该函数的超时ID
 	>>>clearTimeout(id); //取消当前的超时
 
 ##### window.setInterval() 每隔一段毫秒数重新执行这段代码
-	
+ 
 	>>>function boo() {console.log('Boo!';)}
 	>>> var id = setInterval(boo,2000);  //返回该函数的超时ID
 	>>>clearInterval(id); //取消当前的超时
 
 #### 7.3.12 window.document
 bom对象，但是方法和属性也属于DOM对象所涵盖的范围
+
+### 7.4 DOM
+#### 7.4.2.1文档节点
+所以节点都有自己的nodeType, nodeName, nodeValue等属性  
+在DOM中有12种节点，每种类型（nodeType）用一个数字表示，最常用的是：  
+
+1. 元素（1）
+2. 属性（2）
+3. 文本（3）
+
+#### 7.4.2.3子节点
+是否存在子节点，用该节点的`hasChildNodes()`方法  
+可以通过`ChildNodes`**数组集合**来访问它们  
+难题：
+这里body元素有几个子节点？？  
+
+	<body>
+	        <p>first paragrah</p>
+	        <p><em>second</em>paragraph</p>
+	        <p>final</p>
+	        <!-- and that's about it -->
+	</body>
+
+答案：9个！ 3个段落加上1个注释是4个节点，这4个节点之间的空白处至少有3个文本节点，这样就有7个节点，另外body与第一个p节点之间有一个空白处，第八个节点，comment元素和\</body\>元素也有一个空白处，那又是一个文本节点，一共9个文本节点
+
+#### 7.4.2.4 属性
+通过元素的`hasAttributes()`方法来检查该元素中是否存在属性  
+可以通过索引值，或属性名来访问一个属性。  
+\`\``>>>bd.childNodes[1].attributes[0].nodeName //"class"`
+\`\``>>> bd.childNodes[1].attributes['class'] `
+也可以调用`getAttribute()`方法来获取相关的属性值  
+
+#### 7.4.2.5 访问标签中的内容
+1. 可以通过该元素的`textContent`属性来获取段落中的文本内容（IE不适用）
+2. 通过`innerHTML`属性（主流浏览器支持），不属于标准DOM
+区别：  
+![][image-12]
+
+#### 7.4.2.6 DOM访问的快捷方法
+
+-  getElementsByTagName()
+- getElementByName()
+- getElementById()
+
+如果要访问元素的属性，有多种解决办法：
+
+	>>>document.getElementsByTagName('div')[1].getAttribute('id')
+	"logo"
+	>>>document.getElementsByTagName('div')[1].id
+	"logo"
+
+但这种方法对`class`属性不管用，因为”class”这个词在ECMAScript
+
+- getElementById()
+
+#### 7.4.2.7 兄弟节点、body元素、及首尾子节点
+
+- nextSibling
+- previousSibling
+- firstChild  等价于 childNodes[0]
+- lastChild  等价于 childNodes[childNodes.length-1]
+
+#### 7.4.3 DOM节点的修改
+
+- 修改样式： style属性
+	`>>>my.style.border ="1px solid red";`
+	但CSS属性中的短线（即-）在JavaScript中是不可用的，处理办法是直接跳过-并将下一个单词的首字母大写
+	`>>>my.style.fontWeight = 'bold'`
+
+- 表单
+	`var inputs = document.getElementsByTagName('input'); `
+	`>>>inputs[1].name;` 
+	`>>>inputs[1].value = 'my query';` 
+	`>>>inputs[3].value = inputs[3].value.replace(/Lu/,'Tri') ;`
+
+
+		var inputs = document.getElementsByTagName('input');
+		inputs[8].value = inputs[8].value.replace(/百度/, 'google');
+		function test() {
+		  var st = inputs[8].style;
+		  st.visibility = (st.visibility == 'hidden') ? 'visible' : 'hidden';
+		}
+		
+		var myint = setInterval(test,1000);
+
+#### 7.4.4 新建节点
+- 通常用`createElement()`和`createTextNode()`这两个办法来创建新节点  
+- `appendChild()`将新节点添加到DOM树里
+
+	>>>var myp = document.createElement('p');
+	>>>myp.innerHTML="yet another";
+	>>>document.body.appendChild(myp);
+
+- `cloneNode()`拷贝现有节点也是创建节点的一种方式：
+	包含一个布尔类型的参数：
+	- true=深拷贝，包括所有子节点
+	- false=浅拷贝，不包括子节点，只针对当前节点
+
+	<p><em>second</em>paragraph</p>
+	>>>var el = document.getElementsByTagName('p')[1];
+	>>>document.body.appendChild(el.cloneNode(false))//浅拷贝了p这个元素
+	相当于：
+	>>>document.body.appendChild(document.createElement('p'));
+	可以只拷贝EM元素:
+	>>>document.body.appendChild(el.firstChild.cloneNode(false)); //书中此部分错了
+	只拷贝内容为second
+	>>>document.body.appendChild(el.firstChild.firstChild.cloneNode(false));
+
+- `insertBefore(newItem,existingItem)`指定新节点插入哪个元素的前面
+- `removeChild(item)`移除节点
+	`>>>var myp = document.getElementByTagName('p')[1];`
+	`>>>var removed= document.body.removeChild(myp);`//可以保存该方法返回值，后面可以继续使用
+- `replaceChild(newitem,olditem)`移除一个节点的同时，将另一个节点放在该位置
+
+#### 7.4.6只适用于HTML的DOM对象
+#### 7.4.6.1访问文档的基本方法
+- `document.images`所以`image`的合集
+- `document.links`
+	- 是一个列表，包含了页面中所有的含有`href`属性的a标签
+- `document.anchors`
+	- 包含所以带`name`属性的链接
+- `document.forms`
+	- `document.forms.elements`获得一系列的`input`字段和按钮
+	- `document.forms.elements[0].disable = true`获得这个对象的attributes属性 、
+	- 如果有name属性的话，也可以通过名字访问
+		`>>>document.forms[0].elements['search'];`//array notation
+		`>>>document.forms[0].elements.search;`//object property
+
+#### 7.4.6.2 document.write() 很少用
+`document.write()`方法，在当前页面在载入时插入一些HTML元素  
+`<p>It is now <script>document.write("<em>"+new Date() +"</em>");</script></p>`
+
+`document.writeln`末尾自动加入换行符
+
+#### 7.4.6.3 Cookie、Title、Referrer、Domain
+- `document.cookie`实际上是一个字符串，其中存储了用于往返服务器端与客户端之间的cookie信息。每当服务器向浏览器发送页面时，HTTP头信息中往往包含一些用于设置cookie的内容。以便于在客户端再向服务器发送请求时返回带有该头信息的cookie
+- `document.title`是被用来修改页面在浏览器串口中所显示的标题的。并没有修改\<title\>标签本身的值，只改变了其在浏览器窗口显示内容。所以，该集合并不等价于`document.getElementsByTagName(’title’)[0]`
+- `document.referrer`记录我们之前所访问过的页面URL，与浏览器请求页面时所发送的HTTP头信息中的Referer值是相同【注意拼写不同】
+- `document.domain`可以对当前所载入页面的域名进行访问，对于跨域调用非常有效
+
+`>>>window.location === document.location` //true
 
 [image-1]:	7.png
 [image-2]:	8.png
@@ -903,3 +1040,4 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 [image-9]:	6.png
 [image-10]:	10.png
 [image-11]:	11.png
+[image-12]:	12.png
