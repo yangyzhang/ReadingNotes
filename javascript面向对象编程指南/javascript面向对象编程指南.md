@@ -915,8 +915,8 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 #### 7.4.2.4 属性
 通过元素的`hasAttributes()`方法来检查该元素中是否存在属性  
 可以通过索引值，或属性名来访问一个属性。  
-\`\``>>>bd.childNodes[1].attributes[0].nodeName //"class"`
-\`\``>>> bd.childNodes[1].attributes['class'] `
+`>>>bd.childNodes[1].attributes[0].nodeName //"class"`  
+`>>> bd.childNodes[1].attributes['class'] `  
 也可以调用`getAttribute()`方法来获取相关的属性值  
 
 #### 7.4.2.5 访问标签中的内容
@@ -928,7 +928,7 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 #### 7.4.2.6 DOM访问的快捷方法
 
 -  getElementsByTagName()
-- getElementByName()
+- getElementsByName()
 - getElementById()
 
 如果要访问元素的属性，有多种解决办法：
@@ -938,9 +938,10 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 	>>>document.getElementsByTagName('div')[1].id
 	"logo"
 
-但这种方法对`class`属性不管用，因为”class”这个词在ECMAScript
+但这种方法对`class`属性不管用，因为”class”这个词在ECMAScript设置成保留字，需要改用className
 
-- getElementById()
+	>>>document.getElementsByTagName('div')[1].className
+	"opener"
 
 #### 7.4.2.7 兄弟节点、body元素、及首尾子节点
 
@@ -956,7 +957,7 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 	但CSS属性中的短线（即-）在JavaScript中是不可用的，处理办法是直接跳过-并将下一个单词的首字母大写
 	`>>>my.style.fontWeight = 'bold'`
 
-- 表单
+- 表单  
 	`var inputs = document.getElementsByTagName('input'); `
 	`>>>inputs[1].name;` 
 	`>>>inputs[1].value = 'my query';` 
@@ -976,15 +977,17 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 - 通常用`createElement()`和`createTextNode()`这两个办法来创建新节点  
 - `appendChild()`将新节点添加到DOM树里
 
+```
 	>>>var myp = document.createElement('p');
 	>>>myp.innerHTML="yet another";
 	>>>document.body.appendChild(myp);
-
+```
 - `cloneNode()`拷贝现有节点也是创建节点的一种方式：
 	包含一个布尔类型的参数：
 	- true=深拷贝，包括所有子节点
 	- false=浅拷贝，不包括子节点，只针对当前节点
-
+	
+```
 	<p><em>second</em>paragraph</p>
 	>>>var el = document.getElementsByTagName('p')[1];
 	>>>document.body.appendChild(el.cloneNode(false))//浅拷贝了p这个元素
@@ -994,12 +997,13 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 	>>>document.body.appendChild(el.firstChild.cloneNode(false)); //书中此部分错了
 	只拷贝内容为second
 	>>>document.body.appendChild(el.firstChild.firstChild.cloneNode(false));
-
+```
 - `insertBefore(newItem,existingItem)`指定新节点插入哪个元素的前面
-- `removeChild(item)`移除节点
-	`>>>var myp = document.getElementByTagName('p')[1];`
+- `removeChild(item)`移除节点  
+	`>>>var myp = document.getElementByTagName('p')[1];`  
 	`>>>var removed= document.body.removeChild(myp);`//可以保存该方法返回值，后面可以继续使用
 - `replaceChild(newitem,olditem)`移除一个节点的同时，将另一个节点放在该位置
+
 
 #### 7.4.6只适用于HTML的DOM对象
 #### 7.4.6.1访问文档的基本方法
