@@ -63,8 +63,8 @@
 不同于位图，与分辨率无关。  
 优势在于可在不影响图像质量的前提下放大图像大小。  
 
-	<p> <s>可伸缩矢量图形（SVG）较新尚未普及</s> </p>
-	现在住主流浏览器都支持SVG了
+<p> <s>可伸缩矢量图形（SVG）较新尚未普及</s> </p>
+现在住主流浏览器都支持SVG了
 
 #### 透明度
 要创建一个局部透明的图片，涉及以下两种个格式： 
@@ -75,8 +75,8 @@
 _透明PNG格式不完全支持旧浏览器，例如IE6_
 
 ### HTML5： 图形和图形说明
-将图像和图像说明相关联
-	\<figure\>
+将图像和图像说明相关联  
+\<figure\>
 	
  \<img /\>
 	<br / >
@@ -490,7 +490,6 @@ HSLA（0，20%，100%，0.5） 最后一位opacity
 - dotted
 - dash
 - hidden/none
-
 - border-top-style等
 
 ### border-color/border
@@ -519,19 +518,22 @@ border:1px solid black;
 - hidden
 - visible
 
-### CSS3边框图像
+### CSS3边框图像border-image
 
 - URL
 - 切割图片的位置
 - 如何处理直边
 	- stretch
 	- repeat
-	- round
-	p.one {
-		            -moz-border-image: url("images/dots.gif") 11 11 11 11 stretch;
-		            -webkit-border-image: url("images/dots.gif") 11 11 11 11 stretch;
-		            border-image: url("images/dots.gif") 11 11 11 11 stretch;}
+	- round  
 
+
+```
+p.one {
+		  -moz-border-image: url("images/dots.gif") 11 11 11 11 stretch;
+		  -webkit-border-image: url("images/dots.gif") 11 11 11 11 stretch;
+		  border-image: url("images/dots.gif") 11 11 11 11 stretch;}
+```
 ### CSS3 box-shadow
 
 	p.one { 
@@ -660,7 +662,7 @@ clear用于一个盒子的左侧或者右侧不允许浮动。
 两种方法解决：
 
 - 在浮动元素的后面在一个元素，clear:both
-- 父元素增加一个属性overflow:hidden
+- 父元素增加一个属性overflow:hidden/auto
 
 ### 利用浮动创建多列式布局
 用div表示每一列  
