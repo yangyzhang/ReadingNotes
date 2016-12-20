@@ -974,29 +974,28 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 		var myint = setInterval(test,1000);
 
 #### 7.4.4 新建节点
-- 通常用`createElement()`和`createTextNode()`这两个办法来创建新节点  
+- 通常用`createElement()`和`createTextNode()`这两个办法来创建新节点
 - `appendChild()`将新节点添加到DOM树里
 
 ```
-	>>>var myp = document.createElement('p');
-	>>>myp.innerHTML="yet another";
-	>>>document.body.appendChild(myp);
+    >>>var myp = document.createElement('p');
+    >>>myp.innerHTML="yet another";
+    >>>document.body.appendChild(myp);
 ```
 - `cloneNode()`拷贝现有节点也是创建节点的一种方式：
 	包含一个布尔类型的参数：
 	- true=深拷贝，包括所有子节点
 	- false=浅拷贝，不包括子节点，只针对当前节点
-	
 ```
-	<p><em>second</em>paragraph</p>
-	>>>var el = document.getElementsByTagName('p')[1];
-	>>>document.body.appendChild(el.cloneNode(false))//浅拷贝了p这个元素
-	相当于：
-	>>>document.body.appendChild(document.createElement('p'));
-	可以只拷贝EM元素:
-	>>>document.body.appendChild(el.firstChild.cloneNode(false)); //书中此部分错了
-	只拷贝内容为second
-	>>>document.body.appendChild(el.firstChild.firstChild.cloneNode(false));
+    <p><em>second</em>paragraph</p>
+    >>>var el = document.getElementsByTagName('p')[1];
+    >>>document.body.appendChild(el.cloneNode(false))//浅拷贝了p这个元素
+    相当于：
+    >>>document.body.appendChild(document.createElement('p'));
+    可以只拷贝EM元素:
+    >>>document.body.appendChild(el.firstChild.cloneNode(false)); //书中此部分错了
+    只拷贝内容为second
+    >>>document.body.appendChild(el.firstChild.firstChild.cloneNode(false));
 ```
 - `insertBefore(newItem,existingItem)`指定新节点插入哪个元素的前面
 - `removeChild(item)`移除节点  
@@ -1033,6 +1032,160 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 
 `>>>window.location === document.location` //true
 
+### 7.5 事件
+#### 7.5.1 内联HTML属性法
+通过标签的特定属性来添加事件  
+`<div onclick="alert('Ouch!')"click</div>`
+
+#### 7.5.2 元素属性法
+
+	<div id="mytest">click me</div>
+	  <script type="text/javascript">
+	    var mytest = document.getElementById("mytest")
+	    mytest.onclick = function(){
+	        alert("ouch!");
+	        alert("ouch again!");
+	  }
+	  </script>
+
+#### 7.5.3 DOM事件监听器
+`addEventListener()`给单击事件赋予相关的监听器  
+ - 首参数是一个事件类型的参数  
+- 第二个是函数指针，可以是匿名函数，也可以现存函数
+- 第三个参数：false (7.5.4)
+
+	<div id="mytest">click me</div>
+	  <script type="text/javascript">
+
+
+
+
+
+
+
+	    var mytest = document.getElementById("mytest")
+
+
+
+
+
+
+
+	    function ouch(){
+
+
+
+
+
+
+
+	        alert("ouch!");
+
+
+
+
+
+
+
+	        alert("ouch again!");
+
+
+
+
+
+
+
+	  }
+
+
+
+
+
+
+
+	    mytest.addEventListener('click',ouch);
+
+
+
+
+
+
+
+	  </script>
+
+#### 7.5.4 捕捉法和冒泡法
+事件传播链：
+- 捕捉法
+	- 首先发生在document,然后依次往下传递给body, 等等
+- 冒泡法
+	- 首先发生在链接上，然后逐层向上冒泡，直至document对象
+
+DOM Level2建议：  
+事件传播分为三个阶段：在标签上使用捕捉法，然后使用冒泡法  
+也就是从document到相关链接或者标签，然后回到document
+`eventPhase`属性可以告诉某一事件当前所处的阶段
+
+Firefox、Opera、Safari基本完整实现了上述三个阶段，只有IE还依然坚持只使用冒泡法
+
+因素影响事件的传播：  
+- 通过`addEventListener()`的第三个参数，决定是否采用捕捉法来处理事件，然而为了让代码适用于更多的浏览器，最好始终设置为`false`，即只使用冒泡法来处理事件
+- 在监听器函数中阻断事件的传播，使其停止冒泡。使用`stopPropagation()`方法
+- 事件委托。假如一个`<div>`中有10个按钮，每个按钮需要一个监听器，但更聪明的方法是为整个\<div\>设置一个监听器
+
+在IE中使用事件捕捉的方法：  只适用于处理鼠标类事件，对于其他类型的事件例如键盘类不起作用
+- setCapture()
+- releaseCapture()
+
+#### 7.5.5 阻断传播
+使用`stopPropagration()`  
+
+`addEventListener()`的对立面是`removeEventListener()`，但需要的注意的是无法移除匿名函数所定义的监听器，因为匿名函数是彼此独立的，即便函数体完全相同。
+
+ 事实上`stoppropagation`和`cancelBubble`的作用是一样的，都是用来阻止浏览器默认的事件冒泡行为。
+不同之处在于`stoppropagation`属于W3C标准，试用于Firefox等浏览器，但是不支持IE浏览器。相反`cancelBubble`不符合W3C标准，而且只支持IE浏览器。所以很多时候，我们都要结合起来用。不过，`cancelBubble`在新版本chrome,opera浏览器中已经支持。
+
+
+#### 7..5.6 防止默认行为
+使用`preventDefault()`
+
+ 
+	<a href="http://www.baidu.com">baidu</a>
+	<a href="http://www.baidu.com">baidu</a>
+	<a href="http://www.baidu.com">baidu</a>
+	<a href="http://www.baidu.com">baidu</a>
+	<a href="http://www.baidu.com">baidu</a>
+	<a href="http://www.baidu.com">baidu</a>
+	
+	<script type="text/javascript">
+	var links = document.getElementsByTagName('a');
+	for (var i = 0;i<links.length;i++){
+	    links[i].addEventListener('click',
+	        function(e){
+	            if(!confirm("Are you sure you want to follow this link?")){
+	                e.preventDefault();
+	            }
+	
+	    },false);
+	}
+	
+	</script>
+
+#### 7.5.7 跨浏览器事件监听器
+IE的不同之处：
+- IE没有`addEventListener()`,IE5开始提供了`attachEvent()`
+- 对于单击事件来说，使用`attachEvent()`等同于使用`onclick`属性
+- 只使用冒泡法
+- 没有`stopPeopagration`方法，使用`cancelBuble()`设置为true
+- 没有`preventDefault()`方法，使用`returnValue`设置为false
+- 没有`removeEventListener(）`使用`detachEvent()`
+- 没有`target`属性，使用`srcElement`
+
+![][image-13]
+![][image-14] 
+
+#### 7.5.8 事件类型
+![][image-15]
+
 [image-1]:	7.png
 [image-2]:	8.png
 [image-3]:	9.png
@@ -1045,3 +1198,6 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 [image-10]:	10.png
 [image-11]:	11.png
 [image-12]:	12.png
+[image-13]:	13.png
+[image-14]:	14.png
+[image-15]:	15.png
