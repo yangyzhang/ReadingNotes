@@ -15,11 +15,10 @@
 			3628164fb26d48395383f8f31179f24e0882e1e0 append GPL
 
 8. 将版本返回去之前的版本用`git reset`
-	- 用`HEAD`表示当前版本，`HEAD^`表示上一个版本，`HEAD^^`表示上上个版本，往上一百个版本就是`HEAD~100`
-
-		$ git reset --hard HEAD^
-		HEAD is now at ea34578 add distributed
-	- 如果后悔了，想要已经被删除的那个版本，也可以使用这个办法，将HEAD改成那个的版本号前面几位
+	- 用`HEAD`表示当前版本，`HEAD^`表示上一个版本，`HEAD^^`表示上上个版本，往上一百个版本就是`HEAD~100`  
+		`$ git reset --hard HEAD^  `  
+		`HEAD is now at ea34578 add distributed`	
+		- 如果后悔了，想要已经被删除的那个版本，也可以使用这个办法，将HEAD改成那个的版本号前面几位
 
 9. `git reflog`就可以查询以前的版本号了，查看命令历史，以便确定要回到未来的哪个版本
 10. 每次修改，如果不`add`到暂存区，那就不会加入到`commit`中。
@@ -53,21 +52,23 @@
 	2. 登陆GitHub，打开“Account settings”，“SSH Keys”页面, 然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴`id\_rsa.pub`文件的内容
 
 15. 添加远程库：已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步
-	1. 登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库：
+
+	- 登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库：
 
 		- 可以从这个仓库克隆出新的仓库
 
-		echo "# testrepository" \>\> README.md
-		git init
-		git add README.md
-		git commit -m "first commit"
-		git remote add origin https://github.com/yangyzhang/tesrepositoryt.git
-		git push -u origin master
+			`echo "# testrepository" \>\> README.md  `  
+			`git init  `  
+			`git add README.md  `  
+			`git commit -m "first commit" `   
+			`git remote add origin https://github.com/yangyzhang/tesrepositoryt.git `   
+			`git push -u origin master`
+
 
 		- 也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。在本地的test文件夹里
-
-	\`\`\`git remote add origin https://github.com/yangyzhang/test.git
-	git push -u origin master\`\`\`
+	
+			`git remote add origin https://github.com/yangyzhang/test.git
+	git push -u origin master`
 
 	**注意！第一次用`git push -u origin master `,之后都用`git push origin master `**
 
@@ -128,7 +129,7 @@
 	- 推送分支：就是把该分支上的所有本地提交推送到远程库。推送时，要指定本地分支，这样，Git就会把该分支推送到远程库对应的远程分支上：
 	`git push origin master`
 	推送其他分支比如dev:
-	`git push orgin dev` 
+	`git push origin dev` 
 	 
 	并不是一定要把本地分支往远程推送，那么，哪些分支需要推送，哪些不需要呢？
 		- master分支是主分支，因此要时刻与远程同步；
@@ -163,12 +164,15 @@ $ git commit -m "add /usr/bin/env"
 
 **多人协作的工作模式通常是这样:**
 
-	1. 首先，可以试图用git push origin branch-name推送自己的修改；
+	s1. 首先，可以试图用git push origin branch-name推送自己的修改；
 	2. 如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；
 	3.  如果合并有冲突，则解决冲突，并在本地提交；
 	4. 没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！
 	
-	    如果`git pull`提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream branch-name origin/branch-name`
+	    如果git pull提示“no tracking information”，
+	    则说明本地分支和远程分支的链接关系没有创建，
+	    用命令git branch --set-upstream branch-name origin/branch-name
+
 
 23. 标签管理
 
@@ -179,11 +183,11 @@ $ git commit -m "add /usr/bin/env"
 		` git tag v0.9 6224937`
 	5. 标签不是按时间顺序列出，而是按字母排序的。可以用`git show <tagname>`查看标签信息：
 
-		$ git show v0.9
-		commit 622493706ab447b6bb37e4e2a2f276a20fed2ab4
-		Author: Michael Liao [askxuefeng@gmail.com][1]
-		Date:   Thu Aug 22 11:22:08 2013 +0800
-			add merge
+		`$ git show v0.9`  
+		`commit 622493706ab447b6bb37e4e2a2f276a20fed2ab4`  
+		`Author: Michael Liao [askxuefeng@gmail.com][1]`  
+		`Date:   Thu Aug 22 11:22:08 2013 +0800`  
+		`add merge`
 
 	6. 还可以创建带有说明的标签，用-a指定标签名，-m指定说明文字：
 	`git tag -a v0.1 -m "version 0.1 released" 3628164`
@@ -194,5 +198,3 @@ $ git commit -m "add /usr/bin/env"
 	10. 如果要推送某个标签到远程，使用命令`git push origin <tagname>`
 	11. 一次性推送全部尚未推送到远程的本地标签：`git push origin --tags`
 	12. 命令`git push origin :refs/tags/<tagname>`可以删除一个远程标签。
-
-[1]:	mailto:askxuefeng@gmail.com
