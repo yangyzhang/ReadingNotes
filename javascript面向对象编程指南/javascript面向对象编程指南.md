@@ -1057,19 +1057,35 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 	<div id="mytest">click me</div>
 	  <script type="text/javascript">
 
+
+
 	    var mytest = document.getElementById("mytest")
+
+
 
 	    function ouch(){
 
+
+
 	        alert("ouch!");
 
+
+
 	        alert("ouch again!");
+
+
 
 	  }
 
 
 
+
+
+
+
 	    mytest.addEventListener('click',ouch);
+
+
 
 	  </script>
 
@@ -1146,6 +1162,156 @@ IE的不同之处：
 
 #### 7.5.8 事件类型
 ![][image-15]
+
+### 7.6 XMLHttpRequest 对象
+XMLHttpRequest()是一个用来构建HTTP请求的JavaScript对象（构造器）  
+正式使用是IE7，逐渐被其他浏览器所接受，形成一种通用的跨浏览器实现，也就是AJAX。 无需刷新整个页面来更新内容。
+
+AJAX就是JavaScript和XML之间所建立的一种异步联系
+- 异步，因为代码在发送HTTP请求之后，不需要停下来等待服务器相应，可以继续执行其他任务，待相关信息到达时自然会收到通知（通常以事件的形式出现）
+- JavaScript——XHR对象就是用JavaScript来创建的
+
+关于XMLHttpRequest对象的用法，主要分为两个有效步骤：
+- 发送请求——这个步骤中，需要完成XMLHttpRequest对象的构建，并为其设置事件监听器
+- 处理相应——这个步骤中，事件监听器会在服务器的响应信息到达时发出通知，然后代码就会忙于从中提取有用的信息
+
+#### 7.6.1 发送请求
+1. 创建对象`var xhr = new XMLHttpRequest();`
+2. 为该对象设置一个能触发readystatechange事件的事件监听
+	-  `xhr.onreadystatechange = myCallback;`
+3. 调用其`open()`方法 `xhr.open('GET', 'somefile.txt', true);`
+	- 第一个参数是HTTP请求的类型(包括GET、POST、HEAD等)
+	- 第二个参数是所请求目标的URL
+	- 第三个参数的布尔值，决定请求是否按照异步的方式进行(是就为`true`，否为`false`)
+4. 发送请求`xhr.send(' ');`
+	- `send()`在发送请求时附带上任何数据。
+	- GET类请求，这里所发送的是一个空字符串，因为该数据将被包含在URL中
+	- POST类请求，这就成了被包含在表单数据`key=value&key2=value2`中的一个查询字符
+5. 请求被发送出去后，代码和用户就可以将注意力转向其他任务。待它收到服务器响应时，会自动启动回调函数`myCallbck`
+
+#### 7.6.2 处理相应
+已经为`readystatechange`事件设置了监听器  
+每个XHR对象中都有一个叫做`readystate`的属性，一旦改变这个值，就会触发`readystatechange`事件。  
+`readystate`属性的状态值如下:
+- 0——未初始化状态
+- 1——载入请求状态
+- 2——载入完成状态
+- 3——请求交互状态
+- 4——请求完成状态
+
+当`readyState`的值为4时，意味着服务器端的响应信息已经返回，可以开始处理了。
+在`myCallback`函数中，除了确定`readyState`的值为4，还必须检查一下HTTP请求的状态码。因为如果目标URL实际上并不存在，就会收到一个值为404的状态码（表示未找到文件），正常的情况下`xhr.status`的值为200。
+
+确定了`xhr.readyState`的值为4，并且`xhr.status`的值为200，就可以通过`xhr.responseText`来访问目标URL中内容了。
+
+
+	function myCallback(){
+		if (xhr.readyState < 4){
+			return; //not ready yet
+		}
+		if (xhr.status !== 200){
+				alert ('Error!!');//the HTTP status code is not OK
+				return;
+		}
+		//all is fine, do the work
+		alert(xhr.responseText);
+	}
+
+#### 7.6.3  在早于7的IE版本中创建XMLHttpRequest对象
+在早于7的IE版本中，XMLHttpRequest对象是以ActiveX对象的形式存在的，因此创建XHR方式会有些小小的不同  
+具体如下:  
+`var xhr = new ActiveXObject('MSXML2.XMLHTTP.3.0');`  
+`MSXML2.XMLHTTP.3.0' `是要创建对象的标识符，并且还有几个不同版本
+
+	var ids=['MSXML2.XMLHTTP.3.0',
+			      'MSXML2.XMLHTTP',
+				'Microsoft.XMLHTTP];
+	var xhr;
+	if(typeof window.XMLHttpRequest === 'function'){
+		xhr = new XMLHttpRequest();
+	}else{
+		for (var i = 0; i < ids.length;i++){
+			try{
+				xhr = new ActiveXObject (ids[i]);
+				break;
+			}catch(e){}
+		}
+	}
+
+ids包含了ActiveX对象的ID列表，先测试一下是否支持XMLHttpRequest对象，如果不是，则通过历遍ids中的可能项来尝试着创建着对象  
+`catch(e)`可以捕获其中创建失败的项目并使循环继续
+
+#### 7.6.4 A代表异步
+异步发送了两个请求
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = (function (myxhr){
+			return function(){myCallback(myxhr);}//闭包
+	})(xhr);//(回调函数)
+	xhr.open('GET','somefile.txt',true);
+	xhr.send('');
+
+在这种情况下，myCallback将会以参数的形式接收相关的XHR对象，避免了全局空间的问题。也意味着当该请求再次获得响应信息时，原来的xhr变量就可以被第二次请求重置甚至销毁了。因为我们在闭包内保留了该对象的原有信息
+
+#### 7.6.5 X代表XML
+XHR对象除了`responseText`属性外，还有`responseXML`的属性。  
+如果向一个XML文档发送一个HTTP请求，该属性就会指向该XML的DOM document对象。这样就可以对它调用例如`getElementById()`等方法
+
+#### 7.6.6 实例
+
+	静态主页：
+	<body>
+	<div id="text">Text will be here</div>
+	<div id="html">HTML will be here</div>
+	<div id="xml">XML will be here</div>
+	</body>
+
+	三个文件所载入的分别是：
+	- content.txt ——一段简单的文本，内容为"I am a text file"
+	- content,html—— 一段HTML代码，具体如下:
+	I am <strong>formatted</strong><em>HTML</em>
+	- content.xml——一个XML文档，内容如下：
+	<root>
+	    I'm XML data.
+	</root>
+
+	在控制台中输入相关代码，向三个文件发送请求，并将它们各自的内容载入相关的<div>中
+	function request(url,callback){
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = (function(myxhr){
+			return function(){
+			callback(myxhr);
+	}
+	})(xhr);
+	xhr.open('GET',url,true);
+	xhr.send('');
+	}
+	
+	request(
+		'http://www.phpied.com/files/jsoop/content.txt',
+		function(o){
+			document.getElementById('text').innerHTML = o.responseText;
+	}
+	);
+	
+	request(
+		'http://www.phpied.com/files/jsoop/content.html',
+		function(o){
+			document.getElementById('html').innerHTML = o.responseText;
+	}
+	);
+	request(
+		'http://www.phpied.com/files/jsoop/content.xml',
+		function(o){
+			document.getElementById('xml').innerHTML = o.responseXML.getElementsByTagName('root')[0].firstChild.nodeValue;
+	}
+	);
+
+在XML文档里，`documentElement`所指向的是根节点`<root>`，在HTML文档里，指向的根节点的`<html>`
+
+### 第七章补充:
+- 通过`innerHTML`或者`innerText/textContent`属性来进行
+- 通过`nodeValue`或者`setAttribute()`以及对象属性中的相关属性来进行
 
 [image-1]:	7.png
 [image-2]:	8.png
