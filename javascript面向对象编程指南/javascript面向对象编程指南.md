@@ -1035,7 +1035,7 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 ### 7.5 事件
 #### 7.5.1 内联HTML属性法
 通过标签的特定属性来添加事件  
-`<div onclick="alert('Ouch!')"click</div>`
+`<div onclick="alert('Ouch!')">click</div>`
 
 #### 7.5.2 元素属性法
 
@@ -1049,72 +1049,33 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 	  </script>
 
 #### 7.5.3 DOM事件监听器
-`addEventListener()`给单击事件赋予相关的监听器  
- - 首参数是一个事件类型的参数  
-- 第二个是函数指针，可以是匿名函数，也可以现存函数
+`addEventListener()`给单击事件赋予相关的监听器
+- 首参数是一个事件类型的参数
+-  第二个是函数指针，可以是匿名函数，也可以现存函数
 - 第三个参数：false (7.5.4)
 
 	<div id="mytest">click me</div>
 	  <script type="text/javascript">
 
-
-
-
-
-
-
 	    var mytest = document.getElementById("mytest")
-
-
-
-
-
-
 
 	    function ouch(){
 
-
-
-
-
-
-
 	        alert("ouch!");
 
-
-
-
-
-
-
 	        alert("ouch again!");
-
-
-
-
-
-
 
 	  }
 
 
 
-
-
-
-
 	    mytest.addEventListener('click',ouch);
-
-
-
-
-
-
 
 	  </script>
 
 #### 7.5.4 捕捉法和冒泡法
-事件传播链：
+事件传播链：  
+
 - 捕捉法
 	- 首先发生在document,然后依次往下传递给body, 等等
 - 冒泡法
@@ -1141,11 +1102,11 @@ Firefox、Opera、Safari基本完整实现了上述三个阶段，只有IE还依
 
 `addEventListener()`的对立面是`removeEventListener()`，但需要的注意的是无法移除匿名函数所定义的监听器，因为匿名函数是彼此独立的，即便函数体完全相同。
 
- 事实上`stoppropagation`和`cancelBubble`的作用是一样的，都是用来阻止浏览器默认的事件冒泡行为。
+ 事实上`stopPropagation`和`cancelBubble`的作用是一样的，都是用来阻止浏览器默认的事件冒泡行为。
 不同之处在于`stoppropagation`属于W3C标准，试用于Firefox等浏览器，但是不支持IE浏览器。相反`cancelBubble`不符合W3C标准，而且只支持IE浏览器。所以很多时候，我们都要结合起来用。不过，`cancelBubble`在新版本chrome,opera浏览器中已经支持。
 
 
-#### 7..5.6 防止默认行为
+#### 7.5.6 防止默认行为
 使用`preventDefault()`
 
  
