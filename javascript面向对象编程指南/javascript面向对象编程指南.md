@@ -1059,7 +1059,15 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 
 
 
+
+
+
+
 	    var mytest = document.getElementById("mytest")
+
+
+
+
 
 
 
@@ -1067,11 +1075,23 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 
 
 
+
+
+
+
 	        alert("ouch!");
 
 
 
+
+
+
+
 	        alert("ouch again!");
+
+
+
+
 
 
 
@@ -1083,7 +1103,19 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 
 
 
+
+
+
+
+
+
+
+
 	    mytest.addEventListener('click',ouch);
+
+
+
+
 
 
 
@@ -1206,15 +1238,15 @@ AJAX就是JavaScript和XML之间所建立的一种异步联系
 
 
 	function myCallback(){
-		if (xhr.readyState < 4){
-			return; //not ready yet
-		}
-		if (xhr.status !== 200){
-				alert ('Error!!');//the HTTP status code is not OK
-				return;
-		}
-		//all is fine, do the work
-		alert(xhr.responseText);
+	    if (xhr.readyState < 4){
+	        return; //not ready yet
+	    }
+	    if (xhr.status !== 200){
+	            alert ('Error!!');//the HTTP status code is not OK
+	            return;
+	    }
+	    //all is fine, do the work
+	    alert(xhr.responseText);
 	}
 
 #### 7.6.3  在早于7的IE版本中创建XMLHttpRequest对象
@@ -1224,18 +1256,18 @@ AJAX就是JavaScript和XML之间所建立的一种异步联系
 `MSXML2.XMLHTTP.3.0' `是要创建对象的标识符，并且还有几个不同版本
 
 	var ids=['MSXML2.XMLHTTP.3.0',
-			      'MSXML2.XMLHTTP',
-				'Microsoft.XMLHTTP];
+	              'MSXML2.XMLHTTP',
+	            'Microsoft.XMLHTTP];
 	var xhr;
 	if(typeof window.XMLHttpRequest === 'function'){
-		xhr = new XMLHttpRequest();
+	    xhr = new XMLHttpRequest();
 	}else{
-		for (var i = 0; i < ids.length;i++){
-			try{
-				xhr = new ActiveXObject (ids[i]);
-				break;
-			}catch(e){}
-		}
+	    for (var i = 0; i < ids.length;i++){
+	        try{
+	            xhr = new ActiveXObject (ids[i]);
+	            break;
+	        }catch(e){}
+	    }
 	}
 
 ids包含了ActiveX对象的ID列表，先测试一下是否支持XMLHttpRequest对象，如果不是，则通过历遍ids中的可能项来尝试着创建着对象  
@@ -1246,7 +1278,7 @@ ids包含了ActiveX对象的ID列表，先测试一下是否支持XMLHttpRequest
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = (function (myxhr){
-			return function(){myCallback(myxhr);}//闭包
+	        return function(){myCallback(myxhr);}//闭包
 	})(xhr);//(回调函数)
 	xhr.open('GET','somefile.txt',true);
 	xhr.send('');
@@ -1265,7 +1297,7 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 	<div id="html">HTML will be here</div>
 	<div id="xml">XML will be here</div>
 	</body>
-
+	
 	三个文件所载入的分别是：
 	- content.txt ——一段简单的文本，内容为"I am a text file"
 	- content,html—— 一段HTML代码，具体如下:
@@ -1274,13 +1306,13 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 	<root>
 	    I'm XML data.
 	</root>
-
+	
 	在控制台中输入相关代码，向三个文件发送请求，并将它们各自的内容载入相关的<div>中
 	function request(url,callback){
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = (function(myxhr){
-			return function(){
-			callback(myxhr);
+	    var xhr = new XMLHttpRequest();
+	    xhr.onreadystatechange = (function(myxhr){
+	        return function(){
+	        callback(myxhr);
 	}
 	})(xhr);
 	xhr.open('GET',url,true);
@@ -1288,22 +1320,22 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 	}
 	
 	request(
-		'http://www.phpied.com/files/jsoop/content.txt',
-		function(o){
-			document.getElementById('text').innerHTML = o.responseText;
+	    'http://www.phpied.com/files/jsoop/content.txt',
+	    function(o){
+	        document.getElementById('text').innerHTML = o.responseText;
 	}
 	);
 	
 	request(
-		'http://www.phpied.com/files/jsoop/content.html',
-		function(o){
-			document.getElementById('html').innerHTML = o.responseText;
+	    'http://www.phpied.com/files/jsoop/content.html',
+	    function(o){
+	        document.getElementById('html').innerHTML = o.responseText;
 	}
 	);
 	request(
-		'http://www.phpied.com/files/jsoop/content.xml',
-		function(o){
-			document.getElementById('xml').innerHTML = o.responseXML.getElementsByTagName('root')[0].firstChild.nodeValue;
+	    'http://www.phpied.com/files/jsoop/content.xml',
+	    function(o){
+	        document.getElementById('xml').innerHTML = o.responseXML.getElementsByTagName('root')[0].firstChild.nodeValue;
 	}
 	);
 
@@ -1312,6 +1344,141 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 ### 第七章补充:
 - 通过`innerHTML`或者`innerText/textContent`属性来进行
 - 通过`nodeValue`或者`setAttribute()`以及对象属性中的相关属性来进行
+
+## 第八章 编程模式与设计模式
+**模式**就是专门为某些常见问题开发的、优秀的解决方案。
+
+编程模式：
+### 8.1.1 行为隔离
+一个页面通常是三个要素：
+- 内容（HTML）
+- 外观（CSS）
+- 行为（JavaScript）
+### 8.1.2 命名空间
+定义一个全局变量，并将其他变量和方法定义为该变量的属性。  
+
+1.  将对象用做命名空间
+
+		    1. 新建一个全局变量MYAPP
+		    var MYAPP = MYAPP || {};
+		    2. 将要用到的变量作为MYAPP的属性：
+		    MYAPP.event = {};
+		    3. 为其添加方法
+		    MYAPP.event = {
+		        addListener: function (e){},
+		        removeListener: function (e){};
+	}
+
+2. 命名空间中的构造器应用constructor
+
+	 
+		    DOM工具本身就定义一个Element构造器。
+		    MYAPP.dom = {};
+		    MYAPP.dom.Element = function (type, prop){
+		    var tmp = document.createElement(type);
+		    for (var i in prop){
+		        tmp.setAttribute(i,prop[i]);
+		    }
+		    return tmp;
+		    }
+		    var  el = new MYAPP.dom.Element(
+		    'a'.
+		    {href:'http://phpid.com'}
+		    );
+
+3. namespace()方法
+	很多库中（比如YUI）都实现了一个叫做namespace的工具方法，其调用方法如下：  
+	`MYAPP.namespace('dom.style');`  
+	等价于：  
+	MYAPP.dom = {};
+	MYAPP.dom.style = {}
+
+### 8.1.3 初始化分支
+不同浏览器对于相同或者相似的方法可能不同的实现。  
+定义一个命名空间，并声明了一些事件处理方法。   
+然后根据具体浏览器特性探测结果，被赋予不同的实现。
+
+### 8.1.4 延迟定义
+与初始化分支模式很相似。不同在于，该模式下的分支只有在相关函数的弟一次被调用时才会发生   
+它在第一次被调用时，检查浏览器支持功能，下一次再调用方法，就会直接调用它选择的新方法了
+
+### 8.1。5 配置对象
+当一个函数的参数多于三个时，不容易记住顺序，可以将这些参数陈哥某一个对象的属性。
+- 不用考虑顺序
+	- 可以跳过某些参数的设置
+	- 函数的扩展性更强
+	- 代码可读性更好
+
+	MYAPP.dom.Button = function (text,conf){
+			var type =conf.type || 'submit';
+			var font = conf.font || 'Verdana';
+			//...
+	}
+	使用方法：
+	var config = {
+		font:'Arial, Verdana, sans-serif',
+	color: 'white';
+	};
+	new MYAPP.dom.Button('puuush',config);
+
+### 8.1.6 私有属性和方法
+因为JavaScript没有特殊语法来标记私有属性，但可以使用局部变量和函数的方式来实现类似的权限控制
+
+### 8.1.11 JSON
+JSON是一种轻量级的数据交换格式，当使用XMLHttpRequest()接收服务器端的数据时，一般使用JSON而不是XML。JSON是JavaScript Object Notation.  
+JSON格式由对象和数组标记的数据构成。
+
+	{
+	'name':'Stoyan',
+	'family':'Stefanov',
+	'book':['phpBB2', 'phpBB UG', 'PEAR']'
+	}
+	假如我们发送一个XHR请求得到了一个JSON字符串，它保存在XHR的responseText属性中
+	然后用eval()将该字符串转换成JavaScript对象
+	var obj = eval ( ' ( ' +xhr.responseText + ') ' );
+	由于eval()有安全隐患，最后使用JavaScript库来处理
+	var obj = JSON.parse(xhr.responseText);
+
+### 设计模式
+- 创建型模式：涉及对象的创建与初始化
+- 结构型模式：描述了如何组合对象以提供新的功能
+- 行为型模式：描述了对象之间如何通信
+#### 8.2.1 单件模式1
+单件是一个创建型的设计模式。需要创建一种类型或者一个类的唯一对象时，使用这个模式。  
+最基本的单件模式： `var single = {};`
+
+#### 8.2.2 单件模式2
+
+	function Logger() {
+		if (typeof global_log === "undefined"){
+		global_log =this;
+	}
+	return global_log;
+	}
+	var a = new Logger();
+	var b = new Logger();
+	alert(a === b); //true
+	缺点就是使用了全局变量，在任何时候都有可能被覆盖
+	解决方式，使用构造器
+
+#### 8.2.3 工厂模式
+也是创建对象的创建型模式。当我们有多个相似的对象而又不知道应该先使用哪种时，考虑工厂模式[
+]()
+	MYAPP.dom.factory =function(type){
+			return new MYAPP.dom(type);
+	}
+	var o = MYAPP.dom.factory(type);
+	o.url = 'http://...'
+	o.insert();
+
+#### 8.2.4 装饰器模式
+是一种结构型模式，考虑的是如何拓展对象的功能
+
+#### 8.2.5 观察者模式
+行为型模式
+
+
+
 
 [image-1]:	7.png
 [image-2]:	8.png
