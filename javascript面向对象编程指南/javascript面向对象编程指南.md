@@ -1050,75 +1050,20 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 
 #### 7.5.3 DOM事件监听器
 `addEventListener()`给单击事件赋予相关的监听器
+
 - 首参数是一个事件类型的参数
 -  第二个是函数指针，可以是匿名函数，也可以现存函数
-- 第三个参数：false (7.5.4)
+- 第三个参数：false (7.5.4)  
 
-	<div id="mytest">click me</div>
-	  <script type="text/javascript">
-
-
-
-
-
-
-
+`<div id="mytest"> click me</div>`
+	
+	<script type="text/javascript">
 	    var mytest = document.getElementById("mytest")
-
-
-
-
-
-
-
 	    function ouch(){
-
-
-
-
-
-
-
 	        alert("ouch!");
-
-
-
-
-
-
-
 	        alert("ouch again!");
-
-
-
-
-
-
-
 	  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	    mytest.addEventListener('click',ouch);
-
-
-
-
-
-
-
+	    mytest.addEventListener('click',ouch)
 	  </script>
 
 #### 7.5.4 捕捉法和冒泡法
@@ -1402,7 +1347,7 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 与初始化分支模式很相似。不同在于，该模式下的分支只有在相关函数的弟一次被调用时才会发生   
 它在第一次被调用时，检查浏览器支持功能，下一次再调用方法，就会直接调用它选择的新方法了
 
-### 8.1。5 配置对象
+### 8.1.5 配置对象
 当一个函数的参数多于三个时，不容易记住顺序，可以将这些参数陈哥某一个对象的属性。
 - 不用考虑顺序
 	- 可以跳过某些参数的设置
