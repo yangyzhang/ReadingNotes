@@ -567,7 +567,7 @@ Accept 首部字段可通知服务器，用户代理能够处理的媒体类型�
 
 #### 6.4.5 Authorization
 是用来告知服务器，用户代理的认证信息（证书值）。  
-通常，想要通过服务器认证的用户代理会在接收到返回的401 状态码响应后，把首部字段 Authorization 加入请求中。
+通常，想要通过服务器认证的用户代理会在接收到返回的401 状态码Unauthorized响应后，把首部字段 Authorization 加入请求中。
 
 #### 6.4.6 Except
 客户端使用首部字段 Expect 来告知服务器，期望出现的某种特定行为。  
@@ -592,7 +592,7 @@ Accept 首部字段可通知服务器，用户代理能够处理的媒体类型�
 #### 6.4.10 If-Modified-Since
 If-Modified-Since 用于确认代理或客户端拥有的本地资源的有效性。获取资源的更新日期时间，可通过确认首部字段 Last-Modified 来确定。
 
-首部字段 If-Modified-Since，属附带条件之一，它会告知服务器若 If-Modified-Since 字段值早于资源的更新时间，则希望能处理该请求。而在指定 If-Modified-Since 字段值的日期时间之后，如果请求的资源都没有过更新，则返回状态码 304 
+首部字段 If-Modified-Since，属附带条件之一，它会告知服务器若 If-Modified-Since 字段值早于资源的更新时间，则希望能处理该请求。而在指定 If-Modified-Since 字段值的日期时间之后，如果请求的资源都没有过更新，则返回状态码 304  Not Modified
 
 #### 6.4.11 If-None-Match
 只有在 If-None-Match 的字段值与 ETag 值不一致时，可处理该请求。与 If-Match 首部字段的作用相反
