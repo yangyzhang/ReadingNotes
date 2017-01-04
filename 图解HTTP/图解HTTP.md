@@ -609,12 +609,12 @@ If-Modified-Since 用于确认代理或客户端拥有的本地资源的有效�
 
 每次转发数值减 1。当数值变 0 时返回响应
 
-#### 6.4.15　Proxy-Authorization 
+#### 6.4.15　Proxy-Authorization
 `Proxy-Authorization: Basic dGlwOjkpNLAGfFY5`
 
 接收到从代理服务器发来的认证质询时，客户端会发送包含首部字段 Proxy-Authorization 的请求，以告知服务器认证所需要的信息。
 
-#### 6.4.16　Range 
+#### 6.4.16　Range
 `Range: bytes=5001-10000`
 对于只需获取部分资源的范围请求，包含首部字段 Range 即可告知服务器资源的指定范围。上面的示例表示请求获取从第 5001 字节至第 10000 字节的资源。 接收到附带 Range 首部字段请求的服务器，会在处理请求之后返回状态码为 206 Partial Content 的的响应。无法处理该范围请求时，则会返回状态码 200 OK 的响应及全部资源。
 
@@ -623,7 +623,7 @@ If-Modified-Since 用于确认代理或客户端拥有的本地资源的有效�
 首部字段 Referer 会告知服务器请求的原始资源的 URI。  
  客户端一般都会发送 Referer 首部字段给服务器。但当直接在浏览器的地址栏输入 URI，或出于安全性的考虑时，也可以不发送该首部字段  
 
-因为原始资源的 URI 中的查询字符串可能含有 ID 和密码等保密信息，要是写进 Referer 转发给其他服务器，则有可能导致保密信息的泄露。   
+因为原始资源的 URI 中的查询字符串可能含有 ID 和密码等保密信息，要是写进 Referer 转发给其他服务器，则有可能导致保密信息的泄露。  
 
 另外，Referer 的正确的拼写应该是 Referrer，但不知为何，大家一直沿用这个错误的拼写。
 
@@ -637,6 +637,67 @@ User-Agent 用于传达浏览器的种类
 	User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:13.0) Gecko/20100101 Firefox/13.0.1 
 
 首部字段 User-Agent 会将创建请求的浏览器和用户会将创建请求的浏览器和用户代理名称等信息传达给服务器。
+
+### 6.5 响应首部字段
+响应首部字段是服务器向客户端返回响应报文中所使用的字段。  
+可以补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息。
+
+#### 6.5.1　Accept-Ranges
+`Accept-Ranges: bytes`  
+ 首部字段 Accept-Ranges 是用来告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源。 可指定的字段值有两种，可处理范围请求时指定其为 byte  
+当不能处理范围请求时，`Accept-Ranges: none`
+
+#### 6.5.2　Age
+首部字段 Age 能告知客户端，源服务器在多久前创建了响应。字段值的单位为秒。
+若创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值。代理创建响应时必须加上首部字段 Age。
+
+#### 6.5.3　ETag
+定义：  
+首部字段 ETag 能告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式。服务器会为每份资源分配对应的 ETag 值。  
+
+资源更新时，URI相同 ，Etag值也需要更新，由服务器分配
+
+使用中英文版本网站的Etag值不同，即使URI相同。  
+
+强 ETag 值和弱 Tag 值 ：  
+ETag 中有强 ETag 值和弱 ETag 值之分。  
+ 强 ETag 值  
+强 ETag 值，不论实体发生多么细微的变化都会改变其值。  
+`ETag: "usagi-1234"`  
+ 
+弱 ETag 值  
+弱 ETag 值只用于提示资源是否相同。只有资源发生了根本改变，产生差异时才会改变ETag值。这时会在字段值最开始处附加W/  
+`ETag: W/"usagi-1234" `
+
+#### 6.5.4 Location
+使用首部字段 Location 可以将响应接收方引导至某个与请求 URI 位置不同的资源。 基本上，该字段会配合 3xx ：Redirection 的响应，提供重定向的 URI。
+![][image-17]
+
+#### 6.5.5 Proxy-Authenticate
+`Proxy-Authenticate: Basic realm=“Usagidesign Auth”`  
+首部字段 Proxy-Authenticate 会把由代理服务器所要求的认证信息发送给客户端。 它与客户端和服务器之间的 HTTP 访问认证的行为相似，不同之处在于其认证行为是在客户端与代理之间进行的。而客户端与服务器之间进行认证时，首部字段 WWW-Authorization 有着相同的作用。
+
+#### 6.5.6 Retry-After
+`Retry-After: 120`  
+ 首部字段 Retry-After 告知客户端应该在多久之后再次发送请求。主要配合状态码 503 Service Unavailable 响应，或 3xx Redirect 响应一起使用。  
+
+ 字段值可以指定为具体的日期时间（Wed, 04 Jul 2 2012 06：34：24 GMT 等格式），也可以是创建响应后的秒数。
+
+#### 6.5.7 Server
+`Server: Apache/2.2.17 (Unix) `    
+首部字段 Server 告知客户端当前服务器上安装的 HTTP 服务器应用程序的信息。不单单会标出服务器上的软件应用名称，还有可能包括版本号和安装时启用的可选项。  
+` Server: Apache/2.2.6 (Unix) PHP/5.2.5`
+
+#### 6.5.8 Vary
+首部字段 Vary 可对缓存进行控制。源服务器会向代理服务器传达关于本地缓存使用方法的命令。  
+`Vary: Accept-Language 
+`
+#### 6.5.9　WWW-Authenticate
+` WWW-Authenticate: Basic realm="Usagidesign Auth"   `  
+首部字段 WWW-Authenticate 用于 HTTP 访问认证。它会告知客户端适用于访问请求 URI 所指定资源的认证方案（Basic 或是 Digest）和带参数提示的质询（challenge）。  
+状态码 401 Unauthorized 响应中，肯定带有首部字段 WWW-Authenticate
+
+上述示例中，realm 字段的字符串是为了辨别请求 URI 指定资源所受到的保护策略。有关该首部，请参阅本章之后的内容。
 
 [image-1]:	1.png
 [image-2]:	2.png
@@ -654,3 +715,4 @@ User-Agent 用于传达浏览器的种类
 [image-14]:	14.png
 [image-15]:	15.png
 [image-16]:	16.png
+[image-17]:	17.png
