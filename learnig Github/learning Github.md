@@ -16,8 +16,8 @@
 
 8. 将版本返回去之前的版本用`git reset`
 	- 用`HEAD`表示当前版本，`HEAD^`表示上一个版本，`HEAD^^`表示上上个版本，往上一百个版本就是`HEAD~100`  
-		`$ git reset --hard HEAD^  `  
-		`HEAD is now at ea34578 add distributed`	
+		`$ git reset --hard HEAD^`  
+		`HEAD is now at ea34578 add distributed`    
 		- 如果后悔了，想要已经被删除的那个版本，也可以使用这个办法，将HEAD改成那个的版本号前面几位
 
 9. `git reflog`就可以查询以前的版本号了，查看命令历史，以便确定要回到未来的哪个版本
@@ -48,7 +48,7 @@
 
 		你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可.  
 		如果一切顺利的话，可以在用户主目录里找到.ssh目录，里面有`id\_rsa`和`id\_rsa.pub`两个文件，这两个就是SSH Key的秘钥对，`id\_rsa`是私钥，不能泄露出去，`id\_rsa.pub`是公钥，可以放心地告诉任何人。  
-		 
+			  
 	2. 登陆GitHub，打开“Account settings”，“SSH Keys”页面, 然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴`id\_rsa.pub`文件的内容
 
 15. 添加远程库：已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步
@@ -57,18 +57,18 @@
 
 		- 可以从这个仓库克隆出新的仓库
 
-			`echo "# testrepository" \>\> README.md  `  
-			`git init  `  
-			`git add README.md  `  
-			`git commit -m "first commit" `   
-			`git remote add origin https://github.com/yangyzhang/tesrepositoryt.git `   
+			`echo "# testrepository" \>\> README.md`  
+			`git init`  
+			`git add README.md`  
+			`git commit -m "first commit"`  
+			`git remote add origin https://github.com/yangyzhang/tesrepositoryt.git`  
 			`git push -u origin master`
 
 
 		- 也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。在本地的test文件夹里
-	
-			`git remote add origin https://github.com/yangyzhang/test.git
-	git push -u origin master`
+			 
+				git remote add origin https://github.com/yangyzhang/test.git
+				git push -u origin master
 
 	**注意！第一次用`git push -u origin master `,之后都用`git push origin master `**
 
@@ -89,8 +89,7 @@
 	4. 照常add、commit文件
 	5. 可以使用`git log --graph`查看分支的情况，
 			`git log --graph --pretty=oneline --abbrev-commit`更简洁
-	6. 删除分支\`git branch -d <name>
-			`
+	6. 删除分支`git branch -d ~<name>`
 19. 分支管理策略  
 	    通常，合并分支时，如果可能，Git会用Fast forward模式，但这种模式下，删除分支后，会丢掉分支信息。  
 	如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。  
@@ -117,7 +116,7 @@
 		- 另一种方式是用`git stash pop`，恢复的同时把stash内容也删了：
 
 	6. 可以多次stash，恢复的时候，先用`git stash list`查看，然后恢复指定的stash，用命令:`git stash apply stash@{0}`
-		 
+			  
 21. Feature分支
 
 	- 开发一个新feature，最好新建一个分支；
@@ -130,7 +129,7 @@
 	`git push origin master`
 	推送其他分支比如dev:
 	`git push origin dev` 
-	 
+	  
 	并不是一定要把本地分支往远程推送，那么，哪些分支需要推送，哪些不需要呢？
 		- master分支是主分支，因此要时刻与远程同步；
 		- dev分支是开发分支，团队所有成员都需要在上面工作，所以也需要与远程同步；
@@ -138,10 +137,10 @@
 		- feature分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发。
 
 	- 抓取分支：如果小伙伴在另一台电脑或者另一个目录里克隆，默认情况下只能看到本地的master分支，如果要在dev分支上开发，就必须创建origin的dev分支到本地
-		 
+			  
 		`git checkout -b dev origin/dev`  
 		现在，他就可以在dev上继续修改，然后，时不时地把dev分支push到远程
-			 
+				  
 ```
 $ git commit -m "add /usr/bin/env"
     [dev 291bea8] add /usr/bin/env
@@ -155,7 +154,7 @@ $ git commit -m "add /usr/bin/env"
         To git@github.com:michaelliao/learngit.git
            fc38031..291bea8  dev -> dev···
 ```
-    你的小伙伴已经向origin/dev分支推送了他的提交，而碰巧你也对同样的文件作了修改，并试图推送:  
+	你的小伙伴已经向origin/dev分支推送了他的提交，而碰巧你也对同样的文件作了修改，并试图推送:  
 	1.  推送失败，因为你的小伙伴的最新提交和你试图推送的提交有冲突，解决办法也很简单，Git已经提示我们，先用git pull把最新的提交从origin/dev抓下来，然后，在本地合并，解决冲突，再推送  
 	2.  git pull也失败了，原因是没有指定本地dev分支与远程origin/dev分支的链接，根据提示，设置dev和origin/dev的链接：
 	 `$ git branch --set-upstream dev origin/dev`  

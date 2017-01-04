@@ -1056,7 +1056,7 @@ bom对象，但是方法和属性也属于DOM对象所涵盖的范围
 - 第三个参数：false (7.5.4)  
 
 `<div id="mytest"> click me</div>`
-	
+ 
 	<script type="text/javascript">
 	    var mytest = document.getElementById("mytest")
 	    function ouch(){
@@ -1150,7 +1150,7 @@ AJAX就是JavaScript和XML之间所建立的一种异步联系
 
 关于XMLHttpRequest对象的用法，主要分为两个有效步骤：
 - 发送请求——这个步骤中，需要完成XMLHttpRequest对象的构建，并为其设置事件监听器
-- 处理相应——这个步骤中，事件监听器会在服务器的响应信息到达时发出通知，然后代码就会忙于从中提取有用的信息
+- 处理响应——这个步骤中，事件监听器会在服务器的响应信息到达时发出通知，然后代码就会忙于从中提取有用的信息
 
 #### 7.6.1 发送请求
 1. 创建对象`var xhr = new XMLHttpRequest();`
@@ -1166,7 +1166,7 @@ AJAX就是JavaScript和XML之间所建立的一种异步联系
 	- POST类请求，这就成了被包含在表单数据`key=value&key2=value2`中的一个查询字符
 5. 请求被发送出去后，代码和用户就可以将注意力转向其他任务。待它收到服务器响应时，会自动启动回调函数`myCallbck`
 
-#### 7.6.2 处理相应
+#### 7.6.2 处理响应
 已经为`readystatechange`事件设置了监听器  
 每个XHR对象中都有一个叫做`readystate`的属性，一旦改变这个值，就会触发`readystatechange`事件。  
 `readystate`属性的状态值如下:
@@ -1316,7 +1316,7 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 
 2. 命名空间中的构造器应用constructor
 
-	 
+	  
 		    DOM工具本身就定义一个Element构造器。
 		    MYAPP.dom = {};
 		    MYAPP.dom.Element = function (type, prop){
@@ -1340,11 +1340,11 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 
 ### 8.1.3 初始化分支
 不同浏览器对于相同或者相似的方法可能不同的实现。  
-定义一个命名空间，并声明了一些事件处理方法。   
+定义一个命名空间，并声明了一些事件处理方法。  
 然后根据具体浏览器特性探测结果，被赋予不同的实现。
 
 ### 8.1.4 延迟定义
-与初始化分支模式很相似。不同在于，该模式下的分支只有在相关函数的弟一次被调用时才会发生   
+与初始化分支模式很相似。不同在于，该模式下的分支只有在相关函数的弟一次被调用时才会发生  
 它在第一次被调用时，检查浏览器支持功能，下一次再调用方法，就会直接调用它选择的新方法了
 
 ### 8.1.5 配置对象
@@ -1355,9 +1355,9 @@ XHR对象除了`responseText`属性外，还有`responseXML`的属性。
 	- 代码可读性更好
 
 	MYAPP.dom.Button = function (text,conf){
-			var type =conf.type || 'submit';
-			var font = conf.font || 'Verdana';
-			//...
+		    var type =conf.type || 'submit';
+		    var font = conf.font || 'Verdana';
+		    //...
 	}
 	使用方法：
 	var config = {
@@ -1376,7 +1376,7 @@ JSON格式由对象和数组标记的数据构成。
 	{
 	'name':'Stoyan',
 	'family':'Stefanov',
-	'book':['phpBB2', 'phpBB UG', 'PEAR']'
+	'book':['phpBB2', 'phpBB UG', 'PEAR']
 	}
 	假如我们发送一个XHR请求得到了一个JSON字符串，它保存在XHR的responseText属性中
 	然后用eval()将该字符串转换成JavaScript对象
@@ -1395,8 +1395,8 @@ JSON格式由对象和数组标记的数据构成。
 #### 8.2.2 单件模式2
 
 	function Logger() {
-		if (typeof global_log === "undefined"){
-		global_log =this;
+	    if (typeof global_log === "undefined"){
+	    global_log =this;
 	}
 	return global_log;
 	}
@@ -1410,7 +1410,7 @@ JSON格式由对象和数组标记的数据构成。
 也是创建对象的创建型模式。当我们有多个相似的对象而又不知道应该先使用哪种时，考虑工厂模式[
 ]()
 	MYAPP.dom.factory =function(type){
-			return new MYAPP.dom(type);
+	        return new MYAPP.dom(type);
 	}
 	var o = MYAPP.dom.factory(type);
 	o.url = 'http://...'
