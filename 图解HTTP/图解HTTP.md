@@ -1042,16 +1042,46 @@ Ajax和Comet技术可以提升浏览速度，但使用HTTP协议，就无法彻�
 ### 9.4 HTTP/2.0
 ![][image-31]
 
-### 9.5 Web服务器管理文件的WebDAV 
+### 9.5 Web服务器管理文件的WebDAV
 **WebDAV（Web-based Distributed Authoring and Versioning**，基于万维网的分布式创作和版本控制）是一个可对 Web 服务器上的内容直接进行文件复制、编辑等操作的分布式文件系统。  
 
 除了创建、删除文件等基本功能，它还具备文件创建者管理、文件编辑过程中禁止其他用户内容覆盖的加锁功能，以及对文件内容修改的版本控制功能。
 
 #### 9.5.1  扩展HTTP/1.1 的WebDAV
 针对服务器上的资源，WebDAV 新增加了一些概念，如下所示。
-![](32.png)
-![](33.png)
+![][image-32]
+![][image-33]
 
+## 第十章 构建Web内容的技术
+
+- HTML
+- CSS
+- Javascript
+
+#### 10.3.2 与Web服务器与程序协作的CGI
+CGI（Common Gateway Interface，通用网关接口）是指 Web 服务器在接收到客户端发送过来的请求后转发给程序的一组机制。在 CGI 的作用下，程序会对请求内容做出相应的动作，比如创建 HTML 等动态内容。
+
+使用 CGI 的程序叫做 CGI 程序，通常是用 Perl、PHP、Ruby 和 C 等编程语言编写而成。
+
+#### 10.3.3 因Java而普及的Servlet
+Servlet1 是一种能在服务器上创建动态内容的程序。Servlet 是用 Java 语言实现的一个接口，属于面向企业级 Java（JavaEE，Java Enterprise Edition）的一部分。
+
+CGI与Servlet的区别：  
+CGI每次接到请求，程序都要跟着启动一次，导致一旦访问量过大，服务器需要承担相当大的负载。  
+而Servelet运行与Web服务器相同的进程中，因此受到的负载较小。Servlet的运行环境叫做Web容器或Servlet容器。
+
+### 10.4 数据发布的格式及语言
+XML是一种可按应用目标进行扩展的🙆标记语言。通过使用XML，使互联网数据共享变得更容易。  
+与HTML相比，它对数据的记录方式做了特殊处理。  
+
+XML 和 HTML 一样，使用标签构成树形结构，并且可自定义扩展标签。  
+ 从 XML 文档中读取数据比起 HTML 更为简单。由于 XML 的结构基本上都是用标签分割而成的树形结构，因此通过语法分析器（Parser）的解析功能解析 XML 结构并取出数据元素，可更容易地对数据进行
+
+#### 10.4.2 发布更新信息的RSS/Atom
+RSS（简易信息聚合，也叫聚合内容）和 Atom 都是发布新闻或博客日志等更新信息文档的格式的总称。两者都用到了XML。
+
+#### 10.4.3 JSON
+JSON（JavaScript Object Notation）是一种以 JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言。能够处理的数据类型有 false/null/true/ 对象 / 数组 / 数字 / 字符串，这 7 种类型。
 
 [image-1]:	1.png
 [image-2]:	2.png
@@ -1084,3 +1114,5 @@ Ajax和Comet技术可以提升浏览速度，但使用HTTP协议，就无法彻�
 [image-29]:	29.png
 [image-30]:	30.png
 [image-31]:	31.png
+[image-32]:	32.png
+[image-33]:	33.png
