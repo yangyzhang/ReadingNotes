@@ -192,6 +192,434 @@ Web项目开发，一定会遇到相关的js日期控件，在HTML5中新加入�
 
 ## HTML5文件操作API
 
+### 几个重要的JS对象  
 
+- FileList对象
+	- 它是File对象的一个集合，在HTML4标准中文件上传控件只接受一个文件，而在新标准中，只需要设置multiple，就支持多文件上传，所以从此标签中获取的files属性就是FileList对象实例。 
+	- demo：`<input type="file" multiple="multiple" name="fileDemo" id="fileDemo" />`
+
+	下面是关于FileList对象的API的原型：
+	 
+	interface FileList {
+		  getter File? item(unsigned long index);
+		  readonly attribute unsigned long length;
+	};
+
+- Blob对象
+	- 就是一个原始数据对象，它提供了slice方法可以读取原始数据中的某块数据。另外有两个属性：size（数据的大小），type
+
+	看下面的是W3C的API原型:
+	 
+	interface Blob {
+		readonly attribute unsigned long long size;
+		readonly attribute DOMString type;
+		//slice Blob into byte-ranged chunks     
+		Blob slice(
+		    optional long long start,
+		    optional long long end,
+		    optional DOMString contentType
+		); 
+	};
+
+- File对象
+	- 继承自Blob对象，指向一个具体的文件，它还有两个属性：name（文件名）,lastModifiedDate（最后修改时间）
+
+- FileReader对象
+	- 设计用来读取文件里面的数据，提供三个常用的读取文件数据的方法，另外读取文件数据使用了异步的方式，非常高效
+
+这个对象是非常重要第一个对象，它提供了四个读取文件数据的方法，这些方法都是异步的方式读取数据，读取成功后就直接将结果放到属性result中。所以一般就是直接读取数据，然后监听此对象的onload事件，然后在事件里面读取result属性，再做后续处理。当然abort就是停止读取的方法。
+FileReader对象的三个读取文件数据方法
+
+• readAsBinaryString(Blob blob) 传入一个Blob对象，然后读取数据的结果作为二进制字符串的形式放到FileReader的result属性中。
+• readAsText(Blob blob, optional DOMString encoding) 第一个参数传入Blog对象，然后第二个参数传入编码格式，异步将数据读取成功后放到result属性中，读取的内容是普通的文本字符串的形式。
+• readAsDataURL(Blob blob) 传入一个Blob对象，读取内容可以做为URL属性，也就是说可以将一个图片的结果指向给一个img的src属性。
+
+### 读取文件上传控件里的文件并将内容已不同的方式展现到浏览器
+
+实例一：获取上传文件的文件名（注：需要引入jQuery）
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	    <title></title>
+	    <script src="Scripts/jquery-1.5.1.js" type="text/javascript"></script>
+	    <script type="text/javascript">
+	        $(function () {
+	            $("#btnGetFile").click(function (e) {
+	                var fileList = document.getElementById("fileDemo").files;
+	                for (var i = 0; i < fileList.length; i++) {
+	                    if (!(/image\/\w+/.test(fileList[i].type))) {
+	                         $("#result").append("<span>type:"+fileList[i].type+"--******非图片类型*****--name:"+fileList[i].name+"--size:"+fileList[i].size+"</span><br />");
+	                    }
+	                    else {
+	                        $("#result").append("<span>type:"+fileList[i].type+"--name:"+fileList[i].name+"--size:"+fileList[i].size+"</span><br />");
+	                    }
+	                }
+	            });
+	        });
+	    </script>
+	</head>
+	<body>
+	    <form action="/home/index" method="POST" novalidate="true">
+	        <input type="file" multiple="multiple" name="fileDemo" id="fileDemo" /><br/>
+	        <input type="button" value="获取文件的名字" id="btnGetFile"/>
+	        <div id="result"></div>
+	    </form>
+	    <hr/>
+	</body>
+	</html>
+
+实例二：读取上传文件内容，然后将文件内容直接读取到浏览器上（注：需要引入jQuery
+
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	    <title></title>
+	    <script src="Scripts/jquery-1.5.1.js" type="text/javascript"></script>
+	    <script type="text/javascript">
+	        if(typeof FileReader == "undified") {
+	            alert("您老的浏览器不行了！");
+	        }
+	
+	        function showDataByURL() {
+	            var resultFile = document.getElementById("fileDemo").files[0];
+	            if (resultFile) {
+	                var reader = new FileReader();
+	                reader.readAsDataURL(resultFile);
+	                reader.onload = function (e) {
+	                    var urlData = this.result;
+	                    document.getElementById("result").innerHTML += "<img src='" + urlData + "' alt='" + resultFile.name + "' />";
+	                }; 
+	            }
+	        } 
+	
+	        function showDataByBinaryString() {
+	            var resultFile = document.getElementById("fileDemo").files[0];
+	            if (resultFile) {
+	                var reader = new FileReader();
+	                //异步方式，不会影响主线程
+	                reader.readAsBinaryString(resultFile);
+	                reader.onload = function(e) {
+	                    var urlData = this.result;
+	                    document.getElementById("result").innerHTML += urlData;
+	                };
+	            }
+	        }
+	
+	        function showDataByText() {
+	            var resultFile = document.getElementById("fileDemo").files[0];
+	            if (resultFile) {
+	                var reader = new FileReader();
+	                reader.readAsText(resultFile,'gb2312');
+	                reader.onload = function (e) {
+	                    var urlData = this.result;
+	                    document.getElementById("result").innerHTML += urlData;
+	                };
+	            }
+	        }
+	
+	    </script>
+	</head>
+	<body>
+	    <input type="file" name="fileDemo" id="fileDemo" multep/>
+	    <input type="button" value="readAsDataURL" id="readAsDataURL" onclick="showDataByURL();"/>
+	    <input type="button" value="readAsBinaryString"  id="readAsBinaryString" onclick="showDataByBinaryString();"/>
+	    <input type="button" value="readAsText"  id="readAsText" onclick="showDataByText();"/>
+	    <div id="result">
+	    </div>
+	</body>
+	</html>
+
+## Canvas绘图API
+Canvas就是一个画布，可以进行画任何的线、图形、填充等一系列的操作，而且操作的画图就是js，所以让js编程到了嗑药的地步。另外Canvas不仅仅提供简单的二维矢量绘图，也提供了三维的绘图，以及图片处理等一系列的api支持。
+
+### Canvas的Context对象
+
+- 要使用Canvas来绘制图形必须在页面中添加Canvas的标签
+
+	<canvas id="demoCanvas" width="500" height="500">
+	<p>
+	  请使用支持HTML5的浏览器查看本实例
+	</p>
+	</canvas>
+
+- 只有上面的标签，只能是创建好了一个画布，其中width和height属性就是设置画布的大小。Id属性也是必须的，后面要用Id来拿到当前的Canvas的Dom对象。通过此Canvase的Dom对象就可以获取他的上下文（Context）了，Canvas绘制图形都是靠着Canvas对象的上下文对象
+
+	<script type="text/javascript">
+	//第一步：获取canvas元素
+	var canvasDom = document.getElementById("demoCanvas");
+	//第二步：获取上下文
+	var context = canvasDom.getContext('2d');
+	</script>
+
+- Context上下文默认两种绘制方式： 第一种：绘制线（stroke） 第二种：填充（fill）
+
+### Canvas绘制立体透明矩形
+
+- Canvas绘制步骤：
+	- 创建HTML页面，设置画布标签
+	- 编写js，获取画布dom对象
+	- 通过canvas标签的Dom对象获取上下文
+	- 设置绘制样式、颜色
+	- 绘制矩形，或者填充矩形
+
+	<body>
+		<canvas id="demoCanvas" width="500" height="500">
+		    <p>请使用支持HTML5的浏览器查看本实例</p>
+		</canvas>
+		<!---下面将演示一种绘制矩形的demo--->
+		<script type="text/javascript">
+		    //第一步：获取canvas元素
+		    var canvasDom = document.getElementById("demoCanvas");
+		    //第二步：获取上下文
+		    var context = canvasDom.getContext('2d');
+		    //第三步：指定绘制线样式、颜色
+		    context.strokeStyle = "red";
+		    //第四步：绘制矩形，只有线。内容是空的
+		    context.strokeRect(10, 10, 190, 100);
+		    //以下演示填充矩形。
+		    context.fillStyle = "blue";
+		    context.fillRect(110,110,100,100);
+		</script>
+	</body>
+
+### Canvas绘制线条
+
+Context对象的
+- beginPath方法表示开始绘制路径，
+- moveTo(x, y)方法设置线段的起点，
+- lineTo(x, y)方法设置线段的终点，
+- stroke方法用来给透明的线段着色。
+- moveto和lineto方法可以多次使用。最后，还可以
+- 使用closePath方法，自动绘制一条当前点到起点的直线，形成一个封闭图形，省却使用一次lineto方法。
+
+	<body>
+		<canvas id="demoCanvas" width="500" height="600">
+		</canvas>
+		<script type="text/javascript">
+		    //通过id获得当前的Canvas对象
+		    var canvasDom = document.getElementById("demoCanvas");
+		    //通过Canvas Dom对象获取Context的对象
+		    var context = canvasDom.getContext("2d");
+		    context.beginPath(); // 开始路径绘制
+		    context.moveTo(20, 20); // 设置路径起点，坐标为(20,20)
+		    context.lineTo(200, 200); // 绘制一条到(200,20)的直线
+		    context.lineTo(400, 20);
+		    context.closePath();
+		    context.lineWidth = 2.0; // 设置线宽
+		    context.strokeStyle = "#CC0000"; // 设置线的颜色
+		    context.stroke(); // 进行线的着色，这时整条线才变得可见
+		</script>
+	</body>
+
+### Canvas绘制圆形和椭圆
+
+Context上下文的arc方法就是绘制圆形或者椭圆，arc方法的x和y参数是圆心坐标，radius是半径，startAngle和endAngle则是扇形的起始角度和终止角度（以弧度表示），anticlockwise表示做图时应该逆时针画（true）还是顺时针画（false）。
+
+	<canvas id="demoCanvas" width="500" height="600"></canvas>
+	<script type="text/javascript">
+	    //通过id获得当前的Canvas对象
+	    var canvasDom = document.getElementById("demoCanvas");
+	    //通过Canvas Dom对象获取Context的对象
+	    var context = canvasDom.getContext("2d");
+	    context.beginPath();//开始绘制路径
+	    //绘制以 （60,60）为圆心，50为半径长度，从0度到360度（PI是180度），最后一个参数代表顺时针旋转。
+	    context.arc(60, 60, 50, 0, Math.PI * 2, true);
+	    context.lineWidth = 2.0;//线的宽度
+	    context.strokeStyle = "#000";//线的样式
+	    context.stroke();//绘制空心的，当然如果使用fill那就是填充了。
+	</script>
+
+### Canvas绘制图片
+Canvas绘制图片应该是他的一大特点或者是亮点吧。当然配合File的API，让JS变得无可匹敌。那接下里给大家演示一下怎样绘制图片，并且做出一个立体效果出来。
+
+	<canvas id="demoCanvas" width="500" height="600"></canvas>
+	<script type="text/javascript">
+	    //通过id获得当前的Canvas对象
+	    var canvasDom = document.getElementById("demoCanvas");
+	    //通过Canvas Dom对象获取Context的对象
+	    var context = canvasDom.getContext("2d");
+	    var image = new Image();//创建一张图片
+	    image.src = "Images/a.png";//设置图片的路径
+	    image.onload = function() {//当图片加载完成后
+	     for (var i = 0; i < 10; i++) {//输出10张照片
+	            //参数：（1）绘制的图片  （2）坐标x，（3）坐标y
+	            context.drawImage(image, 100 + i * 80, 100 + i * 80);
+	        }
+	    };
+	</script>
+
+没有涉及到Canvas3D绘制的相关内容，而且关于Canvas绘制渐变色、绘制阴影、图片的相关处理操作等
+
+## HTML5本地存储和本地数据库
+### 本地存储由来的背景
+下面是Cookie的限制：
+
+- 大多数浏览器支持最大为 4096 字节的 Cookie。
+- 浏览器还限制站点可以在用户计算机上存储的 Cookie 的数量。大多数浏览器只允许每个站点存储 20 个Cookie；如果试图存储更多 Cookie，则最旧的 Cookie 便会被丢弃。
+- 有些浏览器还会对它们将接受的来自所有站点的 Cookie 总数作出绝对限制，通常为 300 个。
+- Cookie默认情况都会随着Http请求发送到后台服务器，但并不是所有请求都需要Cookie的，比如：js、css、图片等请求则不需要Cookie。
+
+为了破解Cookie的一系列限制，HTML5通过JS的新的API就能直接存储大量的数据到客户端浏览器，而且支持复杂的本地数据库，让JS更有效率。 HTML5支持两种的WebStorage：
+
+- 永久性的本地存储（localStorage）
+- 会话级别的本地存储（sessionStorage）
+
+#### 永久性的本地存储：localStorage
+localStorage对象，以便于用户存储永久存储的Web端的数据。而且数据不会随着Http请求发送到后台服务器，而且存储数据的大小机会不用考虑，因为在HTML5的标准中要求浏览器至少要支持到4MB.所以，这完全是颠覆了Cookie的限制，为Web应用在本地存储复杂的用户痕迹数据提供非常方便的技术支持。
+
+localStorage提供了四个方法来辅助我们进行对本地存储做相关操作。
+
+- setItem(key,value)添加本地存储数据。两个参数，非常简单就不说了。
+- getItem(key)通过key获取相应的Value。
+- removeItem(key)通过key删除本地数据。
+- clear()清空数据
+
+	<script type="text/javascript">
+	    //添加key-value 数据到 sessionStorage
+	    localStorage.setItem("demokey", "http://www.shiyanlou.com");
+	    //通过key来获取value
+	    var dt = localStorage.getItem("demokey");
+	    alert(dt);
+	    //清空所有的key-value数据。
+	    //localStorage.clear();
+	    alert(localStorage.length);
+	</script>
+
+#### 会话级别的本地存储：sessionStorage
+通过此对象可以直接操作存储在浏览器中的会话级别的WebStorage。存储在sessionStorage中的数据首先是Key-Value形式的，另外就是它跟浏览器当前会话相关，当会话结束后，数据会自动清除，跟未设置过期时间的Cookie类似。
+
+sessionStorage提供了四个方法来辅助我们进行对本地存储做相关操作。
+
+- setItem(key,value)添加本地存储数据。两个参数，非常简单就不说了。
+- getItem(key)通过key获取相应的Value。
+- removeItem(key)通过key删除本地数据。
+- clear()清空数据。
+
+	<script type="text/javascript">
+	    //添加key-value 数据到 sessionStorage
+	    sessionStorage.setItem("demokey", "http://blog.itjeek.com");
+	    //通过key来获取value
+	    var dt = sessionStorage.getItem("demokey");
+	    alert(dt);
+	    //清空所有的key-value数据。
+	    //sessionStorage.clear();
+	    alert(sessionStorage.length);
+	</script>
+
+### 强大的本地数据
+虽然HTML5已经提供了功能强大的localStorage和sessionStorage，但是他们两个都只能提供存储简单数据结构的数据，对于复杂的Web应用的数据却无能为力。逆天的是HTML5提供了一个浏览器端的数据库支持，允许我们直接通JS的API在浏览器端创建一个本地的数据库，而且支持标准的SQL的CRUD操作，让离线的Web应用更加方便的存储结构化的数据。
+
+操作本地数据库的最基本的步骤是：
+
+- 第一步：openDatabase方法：创建一个访问数据库的对象。
+- 第二步：使用第一步创建的数据库访问对象来执行transaction方法，通过此方法可以设置一个开启事务成功的事件响应方法，在事件响应方法中可以执行SQL.
+- 第三步：通过executeSql方法执行查询，当然查询可以是：CRUD。
+
+#### 1. openDatabase方法
+
+	//Demo：获取或者创建一个数据库，如果数据库不存在那么创建之
+	var dataBase = openDatabase("student", "1.0", "学生表", 1024 * 1024, function () { });
+
+openDatabase方法打开一个已经存在的数据库，如果数据库不存在，它还可以创建数据库。几个参数意义分别是：
+
+- 数据库名称。
+- 数据库的版本号，目前来说传个1.0就可以了，当然可以不填；
+- 对数据库的描述。
+- 设置分配的数据库的大小（单位是kb）。
+- 回调函数(可省略)。
+
+初次调用时创建数据库，以后就是建立连接了。
+![][image-2]
+
+	<head>
+	 <script src="Scripts/jquery-1.5.1.js" type="text/javascript"></script>
+	    <script type="text/javascript">
+	        function initDatabase() {
+	            var db = getCurrentDb();//初始化数据库
+	            if(!db) {alert("您的浏览器不支持HTML5本地数据库");return;}
+	            db.transaction(function (trans) {//启动一个事务，并设置回调函数
+	                //执行创建表的Sql脚本
+	                trans.executeSql("create table if not exists Demo(uName text null,title text null,words text null)", [], function (trans, result) {
+	                }, function (trans, message) {//消息的回调函数alert(message);});
+	            }, function (trans, result) {
+	            }, function (trans, message) {
+	            });
+	        }
+	        $(function () {//页面加载完成后绑定页面按钮的点击事件
+	            initDatabase();
+	            $("#btnSave").click(function () {
+	                var txtName = $("#txtName").val();
+	                var txtTitle = $("#txtTitle").val();
+	                var txtWords = $("#txtWords").val();
+	                var db = getCurrentDb();
+	                //执行sql脚本，插入数据
+	                db.transaction(function (trans) {
+	                    trans.executeSql("insert into Demo(uName,title,words) values(?,?,?) ", [txtName, txtTitle, txtWords], function (ts, data) {
+	                    }, function (ts, message) {
+	                        alert(message);
+	                    });
+	                });
+	                showAllTheData();
+	            });
+	        });
+	        function getCurrentDb() {
+	            //打开数据库，或者直接连接数据库参数：数据库名称，版本，概述，大小
+	            //如果数据库不存在那么创建之
+	            var db = openDatabase("myDb", "1.0", "it's to save demo data!", 1024 * 1024); ;
+	            return db;
+	        }
+	        //显示所有数据库中的数据到页面上去
+	        function showAllTheData() {
+	            $("#tblData").empty();
+	            var db = getCurrentDb();
+	            db.transaction(function (trans) {
+	                trans.executeSql("select * from Demo ", [], function (ts, data) {
+	                    if (data) {
+	                        for (var i = 0; i < data.rows.length; i++) {
+	                            appendDataToTable(data.rows.item(i));//获取某行数据的json对象
+	                        }
+	                    }
+	                }, function (ts, message) {alert(message);var tst = message;});
+	            });
+	        }
+	        function appendDataToTable(data) {//将数据展示到表格里面
+	            //uName,title,words
+	            var txtName = data.uName;
+	            var txtTitle = data.title;
+	            var words = data.words;
+	            var strHtml = "";
+	            strHtml += "<tr>";
+	            strHtml += "<td>"+txtName+"</td>";
+	            strHtml += "<td>" + txtTitle + "</td>";
+	            strHtml += "<td>" + words + "</td>";
+	            strHtml += "</tr>";
+	            $("#tblData").append(strHtml);
+	        }
+	    </script>
+	</head>
+	    <body>
+	        <table>
+	            <tr>
+	                <td>用户名：</td>
+	                <td><input type="text" name="txtName" id="txtName" required/></td>
+	            </tr>
+	               <tr>
+	                <td>标题：</td>
+	                <td><input type="text" name="txtTitle" id="txtTitle" required/></td>
+	            </tr>
+	            <tr>
+	                <td>留言：</td>
+	                <td><input type="text" name="txtWords" id="txtWords" required/></td>
+	            </tr>
+	        </table>
+	        <input type="button" value="保存" id="btnSave"/>
+	        <hr/>
+	        <input type="button" value="展示所哟数据" onclick="showAllTheData();"/>
+	        <table id="tblData">
+	        </table>
+	    </body>
+	</html>
 
 [image-1]:	1.png
+[image-2]:	2.png
