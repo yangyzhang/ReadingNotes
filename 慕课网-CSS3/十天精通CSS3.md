@@ -201,8 +201,8 @@ text-shadow可以用来设置文本的阴影效果。
 可以把上面的缩写拆解成以下形式：
 
 	background-image:url1,url2,...,urlN;
-
-
+	
+	
 	background-repeat : repeat1,repeat2,...,repeatN;
 	backround-position : position1,position2,...,positionN;
 	background-size : size1,size2,...,sizeN;
@@ -221,6 +221,155 @@ text-shadow可以用来设置文本的阴影效果。
 就是讲的多张图片可以只用写一个标签，只需要写属性的时候用逗号隔开每张图片的属性设置就可以实现图片想要的效果了
 
 
+## 第六章 CSS3选择器
+### CSS3选择器 属性选择器
+在CSS2中引入了一些属性选择器，而CSS3在CSS2的基础上对属性选择器进行了扩展，新增了3个属性选择器，使得属性选择器有了通配符的概念
+![][image-12]
+
+	<style>
+	a[class^=column]{
+	    background:red;
+	    color:#fff;
+	}
+	a[href$=doc]{
+	    background:green;
+	    color:#fff;
+	}
+	a[title*=box]{
+	    background:blue;
+	    color:#fff;
+	}
+	</style>
+	
+	
+	<body>
+	<a href="##" class="columnNews">我的背景想变成红色</a>
+	<a href="##" class="columnVideo">我的背景想变成红色</a>
+	<a href="##" class="columnAboutUs">我的背景想变成红色</a><br/>
+	<a href="1.doc">我的背景想变成绿色</a>
+	<a href="2.doc">我的背景想变成绿色</a><br/>
+	<a href="##" title="this is a box">我的背景想变成蓝色</a>
+	<a href="##" title="box1">我的背景想变成蓝色</a>
+	<a href="##" title="there is two boxs">我的背景想变成蓝色</a>
+	</body>
+
+
+### CSS3 结构性伪类选择器—root
+`:root`选择器，从字面上我们就可以很清楚的理解是根选择器，他的意思就是匹配元素E所在文档的根元素。在HTML文档中，根元素始终是\<html\>。
+
+“:root”选择器等同于\<html\>元素，简单点说：
+
+	:root{background:orange}
+	html {background:orange;}
+
+得到的效果等同。  
+建议使用:root方法。  
+另外在IE９以下还可以借助“:root”实现hack功能。
+
+### CSS3 结构性伪类选择器—not
+`:not`选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素。就拿form元素来说，比如说你想给表单中除submit按钮之外的input元素添加红色边框，CSS代码可以写成：
+
+	form {
+	  width: 200px;
+	  margin: 20px auto;
+	}
+	div {
+	  margin-bottom: 20px;
+	}
+	input:not([type="submit"]){
+	  border:1px solid red;
+	}
+
+### CSS3 结构性伪类选择器—empty
+`:empty`选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，**哪怕是一个空格**。
+
+比如说，你的文档中有三个段落p元素，你想把没有任何内容的P元素隐藏起来。我们就可以使用“:empty”选择器来控制。
+
+	HTML代码：
+	
+	<p>我是一个段落</p>
+	<p> </p>
+	<p></p>​
+	
+	CSS代码：
+	
+	p{
+	 background: orange;
+	 min-height: 30px;
+	}
+	p:empty {
+	  display: none;
+	}​
+
+### CSS3 结构性伪类选择器—target
+`:target`选择器称为目标选择器，用来匹配文档(页面)的url的某个标志符的目标元素。
+
+	示例展示
+	
+	点击链接显示隐藏的段落。
+	
+	HTML代码：
+	
+	<h2><a href="#brand">Brand</a></h2>
+	<div class="menuSection" id="brand">
+	    content for Brand
+	</div>
+	
+	CSS代码：
+	
+	.menuSection{
+	  display: none;
+	}
+	:target{/*这里的:target就是指id="brand"的div对象*/
+	  display:block;
+	}
+
+![][image-13]
+
+分析：
+1. 具体来说，触发元素的URL中的标志符通常会包含一个#号，后面带有一个标志符名称，上面代码中是：#brand
+2. target就是用来匹配id为“brand”的元素（id="brand"的元素）,上面代码中是那个div元素。
+
+**多个url（多个target）处理**：
+
+就像上面的例子，#brand与后面的id="brand"是对应的，当同一个页面上有很多的url的时候你可以取不同的名字，只要#号后对的名称与id=""中的名称对应就可以了。
+
+	如下面例子：
+	html代码：  
+	
+	<h2><a href="#brand">Brand</a></h2>
+	<div class="menuSection" id="brand">
+	  content for Brand
+	</div>
+	<h2><a href="#jake">Brand</a></h2>
+	<div class="menuSection" id="jake">
+	 content for jake
+	</div>
+	<h2><a href="#aron">Brand</a></h2>
+	<div class="menuSection" id="aron">
+	    content for aron
+	</div>
+	
+	css代码：
+	
+	#brand:target {
+	  background: orange;
+	  color: #fff;
+	}
+	#jake:target {
+	  background: blue;
+	  color: #fff;
+	}
+	#aron:target {
+	  background: red;
+	  color: #fff;
+	}
+	
+	上面的代码可以对不同的target对象分别设置不的样式。
+
+### CSS3 结构性伪类选择器—first-child
+`:first-child`选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，**记住是子元素**，而不是后代元素。
+
 
 [image-1]:	1.png
 [image-2]:	2.png
@@ -233,3 +382,5 @@ text-shadow可以用来设置文本的阴影效果。
 [image-9]:	9.jpeg
 [image-10]:	10.png
 [image-11]:	11.png
+[image-12]:	12.jpeg
+[image-13]:	13.jpeg
