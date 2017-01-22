@@ -370,6 +370,601 @@ text-shadow可以用来设置文本的阴影效果。
 ### CSS3 结构性伪类选择器—first-child
 `:first-child`选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，**记住是子元素**，而不是后代元素。
 
+	ul > li 选择了ul下的所有li元素，而ul > li:first-child 只选择了ul下的第一个li元素
+
+	HTML代码：
+	
+	<ol>
+	  <li><a href="##">Link1</a></li>
+	  <li><a href="##">Link2</a></li>
+	  <li><a href="##">link3</a></li>
+	</ol>
+	
+	CSS代码：
+	
+	ol > li{
+	  font-size:20px;
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+	
+	ol a {
+	  font-size: 16px;
+	  font-weight: normal;
+	}
+	
+	ol > li:first-child{
+	  color: red;
+	}
+ 
+ 
+
+### CSS3 结构性伪类选择器—last-child
+
+“:last-child”选择器与“:first-child”选择器作用类似，不同的是“:last-child”选择器选择的是元素的最后一个子元素。例如，需要改变的是列表中的最后一个“li”的背景色，就可以使用这个选择器，
+
+	ul>li:last-child{background:blue;}
+
+### CSS3 结构性伪类选择器—nth-child(n)
+“:nth-child(n)”选择器用来定位某个父元素的一个或多个特定的子元素。其中“n”是其参数，而且可以是整数值(1,2,3,4)，也**可以是表达式(2n+1、-n+5)和关键词(odd、even)**，但参数n的起始值始终是1，而不是0。也就是说，参数n的值为0时，选择器将选择不到任何匹配的元素。
+
+	ol > li:nth-child(2n){
+	  background: orange;
+	}
+
+### CSS3 结构性伪类选择器—nth-last-child(n)
+“:nth-last-child(n)”选择器和前面的“:nth-child(n)”选择器非常的相似，只是这里多了一个“last”，所起的作用和“:nth-child(n)”选择器有所区别，**从某父元素的最后一个子元素开始计算，来选择特定的元素。**
+
+	ol > li:nth-last-child(5){
+	  background: orange;
+	}
+
+### CSS3 first-of-type选择器
+“:first-of-type”选择器类似于“:first-child”选择器，**不同之处就是指定了元素的类型,其主要用来定位一个父元素下的某个类型的第一个子元素。**
+
+	通过“:first-of-type”选择器，定位div容器中的第一个p元素（p不一定是容器中的第一个子元素），并设置其背景色为橙色。
+	
+	HTML代码：
+	
+	<div class="wrapper">
+	  <div>我是一个块元素，我是.wrapper的第一个子元素</div>
+	  <p>我是一个段落元素，我是不是.wrapper的第一个子元素，但是他的第一个段落元素</p>
+	  <p>我是一个段落元素</p>
+	  <div>我是一个块元素</div>
+	</div>
+	
+	CSS代码：
+	
+	.wrapper {
+	  width: 500px;
+	  margin: 20px auto;
+	  padding: 10px;
+	  border: 1px solid #ccc;
+	  color: #fff;
+	}
+	.wrapper > div {
+	  background: green;
+	}
+	.wrapper > p {
+	  background: blue;
+	}
+	/*我要改变第一个段落的背景为橙色*/
+	.wrapper > p:first-of-type {
+	  background: orange;
+	}
+
+### CSS3 nth-of-type(n)选择器
+当某个元素中的子元素不单单是同一种类型的子元素时，使用“:nth-of-type(n)”选择器来定位于父元素中某种类型的子元素是非常方便和有用的。在“:nth-of-type(n)”选择器中的“n”和“:nth-child(n)”选择器中的“n”参数也一样，**可以是具体的整数，也可以是表达式，还可以是关键词。**
+
+	.wrapper > p:nth-of-type(2n){
+	  background: orange;
+	}
+
+### CSS3 last-of-type选择器
+
+	.wrapper > p:last-of-type{
+	  background: orange;
+	}
+
+### CSS3 nth-last-of-type(n)选择器
+选择父元素中指定的某种子元素类型，但它的起始方向是从最后一个子元素开始，而且它的使用方法类似于上节中介绍的“:nth-last-child(n)”选择器一样。
+
+	.wrapper > p:nth-last-of-type(3){
+	  background: orange;
+	}
+
+### CSS3 only-child选择器
+“:only-child”选择器选择的是父元素中只有一个子元素，而且只有唯一的一个子元素。也就是说，**匹配的元素的父元素中仅有一个子元素，而且是一个唯一的子元素。**
+
+	li {
+	  background: green;
+	  padding: 10px;
+	  margin-bottom: 5px;
+	}
+	li:only-child {
+	  background: orange;
+	}
+
+### CSS3 only-of-type选择器
+“:only-of-type”选择器用来选择一个元素是它的父元素的唯一一个相同类型的子元素。这样说或许不太好理解，换一种说法。  
+“:only-of-type”是表示一个元素他有很多个子元素，而其中只有一种类型的子元素是唯一的，使用“:only-of-type”选择器就可以选中这个元素中的唯一一个类型子元素。
+
+	.wrapper > div:only-of-type {
+	  background: orange;
+	}
+	
+	
+
+
+## 第七章 CSS3选择器
+
+### CSS3选择器 :enabled选择器
+在Web的表单中，有些表单元素有可用（“:enabled”）和不可用（“:disabled”）状态，比如输入框，密码框，复选框等。在默认情况之下，这些表单元素都处在可用状态。那么我们可以通过伪选择器“:enabled”对这些表单元素设置样式。
+
+	div {
+	  margin: 30px;
+	}
+	input[type="text"]:enabled {
+	  border: 1px solid #f36;
+	  box-shadow: 0 0 5px #f36;
+	}
+	
+	input[type="text"]:disabled{
+	  box-shadow: none;
+	}
+
+### CSS3选择器 :disabled选择器
+
+“:disabled”选择器刚好与“:enabled”选择器相反，用来选择不可用表单元素。要正常使用“:disabled”选择器，需要在表单元素的HTML中设置“disabled”属性。
+
+### CSS3选择器 :checked选择器
+在表单元素中，单选按钮和复选按钮都具有选中和未选中状态。（大家都知道，要覆写这两个按钮默认样式比较困难）。在CSS3中，我们可以通过状态选择器“:checked”配合其他标签实现自定义样式。而“:checked”表示的是选中状态。
+
+	通过“:checked”状态来自定义复选框效果。
+	
+	HTML代码
+	
+	<form action="#">
+	  <div class="wrapper">
+	    <div class="box">
+	      <input type="checkbox" checked="checked" id="usename" /><span>√</span>
+	    </div>
+	    <lable for="usename">我是选中状态</lable>
+	  </div>
+	  
+	  <div class="wrapper">
+	    <div class="box">
+	      <input type="checkbox"  id="usepwd" /><span>√</span>
+	    </div>
+	    <label for="usepwd">我是未选中状态</label>
+	  </div>
+	</form> 
+	
+	CSS代码：
+	
+	form {
+	  border: 1px solid #ccc;
+	  padding: 20px;
+	  width: 300px;
+	  margin: 30px auto;
+	}
+	
+	.wrapper {
+	  margin-bottom: 10px;
+	}
+	
+	.box {
+	  display: inline-block;
+	  width: 20px;
+	  height: 20px;
+	  margin-right: 10px;
+	  position: relative;
+	  border: 2px solid orange;
+	  vertical-align: middle;
+	}
+	
+	.box input {
+	  opacity: 0;
+	  position: absolute;
+	  top:0;
+	  left:0;
+	}
+	
+	.box span {
+	  position: absolute;
+	  top: -10px;
+	  right: 3px;
+	  font-size: 30px;
+	  font-weight: bold;
+	  font-family: Arial;
+	  -webkit-transform: rotate(30deg);
+	  transform: rotate(30deg);
+	  color: orange;
+	}
+	
+	input[type="checkbox"] + span {
+	  opacity: 0;
+	}
+	
+	input[type="checkbox"]:checked + span {
+	  opacity: 1;
+	}
+
+![][image-14]
+
+### CSS3选择器 ::selection选择器
+“::selection”伪元素是用来匹配突出显示的文本(用鼠标选择文本时的文本)。浏览器默认情况下，用**鼠标选择**网页文本是以“深蓝的背景，白色的字体”显示的
+
+有的时候设计要求,不使用上图那种浏览器默认的突出文本效果，需要一个与众不同的效果，此时“::selection”伪元素就非常的实用。不过在Firefox浏览器还需要添加前缀。
+
+	CSS代码：
+	
+	::-moz-selection {
+	  background: red;
+	  color: green;
+	}
+	::selection {
+	  background: red;
+	  color: green;
+	}
+
+**注意：**
+
+1. IE9+、Opera、Google Chrome 以及 Safari 中支持 ::selection 选择器。
+2. Firefox 支持替代的 ::-moz-selection。
+
+### CSS3选择器 :read-only选择器
+“:read-only”伪类选择器用来指定处于只读状态元素的样式。简单点理解就是，元素中设置了“readonly=’readonly’”
+
+	input[type="text"]:-moz-read-only{
+	  border-color: #ccc;
+	}
+	input[type="text"]:read-only{
+	  border-color: #ccc;
+	}
+
+### CSS3选择器 :read-write选择器
+“:read-write”选择器刚好与“:read-only”选择器相反，主要用来指定当元素处于非只读状态时的样式。
+
+### CSS3选择器 ::before和::after
+::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常和"content"配合使用，**使用的场景最多的就是清除浮动。**
+
+	.clearfix::before,
+	.clearfix::after {
+	    content: ".";
+	    display: block;
+	    height: 0;
+	    visibility: hidden;
+	}
+	.clearfix:after {clear: both;}
+	.clearfix {zoom: 1;}
+
+单冒号(:)用于CSS3伪类，双冒号(::)用于CSS3伪元素
+
+
+## 第八章 CSS3中的变形与动画
+
+### CSS3变形--旋转 rotate()
+旋转rotate()函数通过指定的角度参数使元素相对原点进行旋转。它主要在二维空间内进行操作，设置一个角度值，用来指定旋转的幅度。如果这个值为正值，元素相对原点中心顺时针旋转；如果这个值为负值，元素相对原点中心逆时针旋转。
+
+![][image-15]
+
+	将文本旋转回到原来水平位置。
+	.wrapper {
+	  margin: 100px auto;
+	  width: 300px;
+	  height: 200px;
+	  border: 2px dotted blue;
+	}
+	
+	.wrapper div{
+	  width: 300px;
+	  height: 200px;
+	  line-height: 200px;
+	  text-align: center;
+	  background: green;
+	  color: #fff;
+	  -webkit-transform: rotate(-20deg);
+	  -moz-transform: rotate(-20deg);
+	  transform:rotate(-20deg);
+	}
+	.wrapper span {
+	  display:block;
+	 -webkit-transform: rotate(20deg);
+	 -moz-transform: rotate(20deg);
+	  transform:rotate(20deg);
+	 }
+
+	.wrapper span{}中为神马要加display：block;才起作用？
+	内联元素也就是行内元素不能更改宽度与高度，只能根据内容来确定要显示的大小，自然就无法旋转等，所以一定要将其转化为块元素它才会具有占据一整行的特性，也就能自由更改宽度和高度。
+
+### CSS3中的变形--扭曲 skew()
+扭曲skew()函数能够让元素倾斜显示。它可以将一个对象以其中心位置围绕着X轴和Y轴按照一定的角度倾斜。这与rotate()函数的旋转不同，rotate()函数只是旋转，而不会改变元素的形状。skew()函数不会旋转，而只会改变元素的形状。
+
+Skew()具有三种情况：
+
+1. skew(x,y)使元素在水平和垂直方向同时扭曲（X轴和Y轴同时按一定的角度值进行扭曲变形）；
+
+![][image-16]
+
+第一个参数对应X轴，第二个参数对应Y轴。如果第二个参数未提供，则值为0，也就是Y轴方向上无斜切。
+
+2. skewX(x)仅使元素在水平方向扭曲变形（X轴扭曲变形）
+
+![][image-17]
+
+3. skewY(y)仅使元素在垂直方向扭曲变形（Y轴扭曲变形）
+
+![][image-18]
+
+	示例演示：
+	
+	通过skew（）函数将长方形变成平行四边形。
+	
+	HTML代码：
+	
+	<div class="wrapper">
+	  <div>我变成平形四边形</div>
+	</div>
+	
+	CSS代码：
+	
+	.wrapper {
+	  width: 300px;
+	  height: 100px;
+	  border: 2px dotted red;
+	  margin: 30px auto;
+	}
+	.wrapper div {
+	  width: 300px;
+	  height: 100px;
+	  line-height: 100px;
+	  text-align: center;
+	  color: #fff;
+	  background: orange;
+	  -webkit-transform: skew(45deg);
+	  -moz-transform:skew(45deg) 
+	  transform:skew(45deg);
+	}
+
+### CSS3中的变形--缩放 scale()
+
+缩放 scale()函数 让元素根据中心原点对对象进行缩放。
+缩放 scale 具有三种情况：
+
+1.  scale(X,Y)使元素水平方向和垂直方向同时缩放（也就是X轴和Y轴同时缩放）
+
+![][image-19]
+
+	div:hover {
+	  -webkit-transform: scale(1.5,0.5);
+	  -moz-transform:scale(1.5,0.5)
+	  transform: scale(1.5,0.5);
+	}
+	
+
+
+** 注意：Y是一个可选参数，如果没有设置Y值，则表示X，Y两个方向的缩放倍数是一样的。**
+
+2. scaleX(x)元素仅水平方向缩放（X轴缩放）
+3. scaleY(y)元素仅垂直方向缩放（Y轴缩放）
+
+**注意： scale()的取值默认的值为1，当值设置为0.01到0.99之间的任何值，作用使一个元素缩小；而任何大于或等于1.01的值，作用是让元素放大。**
+
+### CSS3中的变形--位移 translate()
+translate()函数可以将元素向指定的方向移动，类似于position中的relative。或以简单的理解为，使用translate()函数，可以把元素从原来的位置移动，而不影响在X、Y轴上的任何Web组件。
+
+translate我们分为三种情况：
+
+1. translate(x,y)水平方向和垂直方向同时移动（也就是X轴和Y轴同时移动）
+2. translateX(x)仅水平方向移动（X轴移动
+3. translateY(Y)仅垂直方向移动（Y轴移动）
+
+
+	在CSS编辑器第9-11行输入正确代码，让不知道宽度和高度的元素实现水平、垂直居中。
+	.wrapper {
+	  padding: 20px;
+	  background:orange;
+	  color:#fff;
+	  position:absolute;
+	  top:50%;
+	  left:50%;
+	  border-radius: 5px;
+	  -webkit-transform:translate(-50%,-50%);
+	  -moz-transform:translate(-50%,-50%);
+	  transform:translate(-50%,-50%);
+	}
+
+1. top：50%，left：50%，是将色块的左上角定位在了屏幕的中央，但是，整体并不在中央；
+2. translate的百分比是根据自身的宽度和高度来定的，translate(-50%,-50%) 配合 top：50%，left：50% 实现了居中
+
+关于translate和position：
+
+relative的区别：   
+相同点：两者都是相对于本身移动位置   
+区别：
+ 1. 当元素原来已经有position:absolute的时候，这时候你想相对于本身移动，可以使用translate
+2. 做动画的时候translate更适合，不会引起页面的重排和重绘 
+3. 关于transform类的，可以使用GPU加速，提高浏览器的性能？
+
+ 总之：transform更适用于动画 
+
+### CSS3中的变形--矩阵 matrix()
+matrix() 是一个含六个值的(a,b,c,d,e,f)变换矩阵，用来指定一个2D变换，相当于直接应用一个a b c d e f变换矩阵。就是基于水平方向（X轴）和垂直方向（Y轴）重新定位元素,此属性值使用涉及到数学中的矩阵，我在这里只是简单的说一下CSS3中的transform有这么一个属性值，
+
+### CSS3中的变形--原点 transform-origin
+任何一个元素都有一个中心点，默认情况之下，其中心点是居于元素X轴和Y轴的50%处。
+
+在没有重置transform-origin改变元素原点位置的情况下，**CSS变形进行的旋转、位移、缩放，扭曲等操作都是以元素自己中心位置进行变形**。但很多时候，我们可以通过transform-origin来对元素进行原点位置改变，使元素原点不在元素的中心位置，以达到需要的原点位置。
+
+### CSS3中的动画--过渡属性 transition-property
+CSS3中新增加了一个新的模块transition，它可以通过一些简单的CSS事件来触发元素的外观变化，让效果显得更加细腻。简单点说，就是通过鼠标的单击、获得焦点，被点击或对元素任何改变中触发，并平滑地以动画效果改变CSS的属性值。
+
+	在CSS中创建简单的过渡效果可以从以下几个步骤来实现：
+	第一，在默认样式中声明元素的初始状态样式；
+	第二，声明过渡元素最终状态样式，比如悬浮状态；
+	第三，在默认样式中通过添加过渡函数，添加一些不同的样式。
+
+
+- transition-property:指定过渡或动态模拟的CSS属性
+	- transition-duration:指定完成过渡所需的时间
+	- transition-timing-function:指定过渡函数
+	- transition-delay:指定开始出现的延迟时间  
+
+
+transition-property用来指定过渡动画的CSS属性名称，而这个过渡属性只有具备一个中点值的属性（需要产生动画的属性）才能具备过渡效果，其对应具有过渡的CSS属性主要有：
+
+![][image-20]
+
+	div {
+	  width: 200px;
+	  height: 200px;
+	  background: red;
+	  margin: 20px auto;
+	  -webkit-transition-property: width;
+	  transition-property: width;
+	  -webkit-transition-duration:.5s;
+	  transition-duration:.5s;
+	  -webkit-transition-timing-function: ease-in;
+	  transition-timing-function: ease-in;
+	  -webkit-transition-delay: .18s;
+	  	transition-delay:.18s;
+	}
+	div:hover {
+	  width: 400px;
+	}
+
+特别注意：当“transition-property”属性设置为all时，表示的是所有中点值的属性。  
+用一个简单的例子来说明这个问题：  
+假设你的初始状态设置了样式“width”,“height”,“background”,当你在终始状态都改变了这三个属性，那么all代表的就是“width”、“height”和“background”。如果你的终始状态只改变了“width”和“height”时，那么all代表的就是“width”和“height”。
+
+
+### CSS3中的动画--过渡所需时间 transition-duration
+
+transition-duration属性主要用来设置一个属性过渡到另一个属性所需的时间，也就是从旧属性过渡到新属性花费的时间长度，俗称持续时间。
+
+### CSS3中的动画--过渡函数 transition-timing-function
+transition-timing-function属性指的是过渡的“缓动函数”。主要用来指定浏览器的过渡速度，以及过渡期间的操作进展情况，其中要包括以下几种函数：
+
+![][image-21]
+
+### CSS3中的动画--过渡延迟时间 transition-delay
+ransition-delay属性和transition-duration属性极其类似，不同的是transition-duration是用来设置过渡动画的持续时间，而**transition-delay主要用来指定一个动画开始执行的时间，也就是说当改变元素属性值后多长时间开始执行**。
+
+有时我们想改变两个或者多个css属性的transition效果时，只要把几个transition的声明串在一起，用逗号（“，”）隔开，然后各自可以有各自不同的延续时间和其时间的速率变换方式。但需要值得注意的一点：第一个时间的值为 transition-duration，第二个为transition-delay。
+
+	例如：a{ transition: background 0.8s ease-in 0.3,color 0.6s ease-out 0.3;}
+
+## 第九章 CSS3中的变形与动画
+
+### CSS3 Keyframes介绍
+Keyframes被称为关键帧，其类似于Flash中的关键帧。在CSS3中其主要以“@keyframes”开头，后面紧跟着是动画名称加上一对花括号“{…}”，括号中就是一些不同时间段样式规则。
+
+	@keyframes changecolor{
+	  0%{
+	   background: red;
+	  }
+	  100%{
+	    background: green;
+	  }
+	}
+
+在一个“@keyframes”中的样式规则可以由多个百分比构成的，如在“0%”到“100%”之间创建更多个百分比，分别给每个百分比中给需要有动画效果的元素加上不同的样式，从而达到一种在不断变化的效果。
+
+**经验与技巧**：在@keyframes中定义动画名称时，其中0%和100%还可以使用关键词from和to来代表，其中0%对应的是from，100%对应的是to。
+
+浏览器的支持情况：  
+Chrome 和 Safari 需要前缀 -webkit-；Foxfire 需要前缀 -moz-。
+
+	@keyframes changecolor{
+	  0%{
+	    background: red;
+	  }
+	  20%{
+	    background:blue;
+	  }
+	  40%{
+	    background:orange;
+	  }
+	  60%{
+	    background:green;
+	  }
+	  80%{
+	    background:yellow;
+	  }
+	  100%{
+	    background: red;
+	  }
+	}
+	div {
+	  width: 300px;
+	  height: 200px;
+	  background: red;
+	  color:#fff;
+	  margin: 20px auto;
+	}
+	div:hover {
+	  animation: changecolor 5s ease-out .2s;
+	}
+
+### CSS3中调用动画
+
+animation-name属性主要是用来调用 @keyframes 定义好的动画。需要特别注意: animation-name 调用的动画名需要和“@keyframes”定义的动画名称完全一致（区分大小写），如果不一致将不具有任何动画效果。
+
+
+语法：
+
+	animation-name: none | IDENT[,none|DENT]*;
+
+1. IDENT是由 @keyframes 创建的动画名，上面已经讲过了（animation-name 调用的动画名需要和“@keyframes”定义的动画名称完全一致）；
+2. none为默认值，当值为 none 时，将没有任何动画效果,这可以用于覆盖任何动画。
+
+注意：需要在 Chrome 和 Safari 上面的基础上加上-webkit-前缀，Firefox加上-moz-。
+
+	<body>
+	<div><span></span></div>
+	
+	</body>
+	
+	@keyframes around{
+	  0% {
+	    transform: translateX(0);
+	  }
+	  25%{
+	    transform: translateX(180px);
+	  }
+	  50%{
+	     transform: translate(180px, 180px); 
+	  }
+	  75%{
+	    transform:translate(0,180px);
+	  }
+	  100%{
+	    transform: translateY(0);
+	  }
+	}
+	div {
+	  width: 200px;
+	  height: 200px;
+	  border: 1px solid red;
+	  margin: 20px auto;
+	}
+	div span {
+	  display: inline-block;
+	  width: 20px;
+	  height: 20px;
+	  background: orange;
+	  border-radius: 100%;
+	  animation:around;
+	  animation-duration: 10s;
+	  animation-timing-function: ease;
+	  animation-delay: 1s;
+	  animation-iteration-count:infinite;
+	}
+
+
+
+
 
 [image-1]:	1.png
 [image-2]:	2.png
@@ -384,3 +979,11 @@ text-shadow可以用来设置文本的阴影效果。
 [image-11]:	11.png
 [image-12]:	12.jpeg
 [image-13]:	13.jpeg
+[image-14]:	14.jpeg
+[image-15]:	15.jpeg
+[image-16]:	16.jpeg
+[image-17]:	17.jpeg
+[image-18]:	18.jprg
+[image-19]:	19.jpg
+[image-20]:	20.jpeg
+[image-21]:	21.jpeg
