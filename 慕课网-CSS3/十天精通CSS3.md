@@ -371,7 +371,7 @@ text-shadow可以用来设置文本的阴影效果。
 `:first-child`选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，**记住是子元素**，而不是后代元素。
 
 	ul > li 选择了ul下的所有li元素，而ul > li:first-child 只选择了ul下的第一个li元素
-
+	
 	HTML代码：
 	
 	<ol>
@@ -492,8 +492,8 @@ text-shadow可以用来设置文本的阴影效果。
 	.wrapper > div:only-of-type {
 	  background: orange;
 	}
-	
-	
+ 
+ 
 
 
 ## 第七章 CSS3选择器
@@ -531,7 +531,7 @@ text-shadow可以用来设置文本的阴影效果。
 	    </div>
 	    <lable for="usename">我是选中状态</lable>
 	  </div>
-	  
+	
 	  <div class="wrapper">
 	    <div class="box">
 	      <input type="checkbox"  id="usepwd" /><span>√</span>
@@ -674,7 +674,7 @@ text-shadow可以用来设置文本的阴影效果。
 	 -moz-transform: rotate(20deg);
 	  transform:rotate(20deg);
 	 }
-
+	
 	.wrapper span{}中为神马要加display：block;才起作用？
 	内联元素也就是行内元素不能更改宽度与高度，只能根据内容来确定要显示的大小，自然就无法旋转等，所以一定要将其转化为块元素它才会具有占据一整行的特性，也就能自由更改宽度和高度。
 
@@ -683,17 +683,17 @@ text-shadow可以用来设置文本的阴影效果。
 
 Skew()具有三种情况：
 
-1. skew(x,y)使元素在水平和垂直方向同时扭曲（X轴和Y轴同时按一定的角度值进行扭曲变形）；
+- skew(x,y)使元素在水平和垂直方向同时扭曲（X轴和Y轴同时按一定的角度值进行扭曲变形）；
 
 ![][image-16]
 
 第一个参数对应X轴，第二个参数对应Y轴。如果第二个参数未提供，则值为0，也就是Y轴方向上无斜切。
 
-2. skewX(x)仅使元素在水平方向扭曲变形（X轴扭曲变形）
+- skewX(x)仅使元素在水平方向扭曲变形（X轴扭曲变形）
 
 ![][image-17]
 
-3. skewY(y)仅使元素在垂直方向扭曲变形（Y轴扭曲变形）
+- skewY(y)仅使元素在垂直方向扭曲变形（Y轴扭曲变形）
 
 ![][image-18]
 
@@ -741,7 +741,7 @@ Skew()具有三种情况：
 	  -moz-transform:scale(1.5,0.5)
 	  transform: scale(1.5,0.5);
 	}
-	
+ 
 
 
 ** 注意：Y是一个可选参数，如果没有设置Y值，则表示X，Y两个方向的缩放倍数是一样的。**
@@ -780,8 +780,8 @@ translate我们分为三种情况：
 
 关于translate和position：
 
-relative的区别：   
-相同点：两者都是相对于本身移动位置   
+relative的区别：  
+相同点：两者都是相对于本身移动位置  
 区别：
  1. 当元素原来已经有position:absolute的时候，这时候你想相对于本身移动，可以使用translate
 2. 做动画的时候translate更适合，不会引起页面的重排和重绘 
@@ -828,7 +828,7 @@ transition-property用来指定过渡动画的CSS属性名称，而这个过渡�
 	  -webkit-transition-timing-function: ease-in;
 	  transition-timing-function: ease-in;
 	  -webkit-transition-delay: .18s;
-	  	transition-delay:.18s;
+	    transition-delay:.18s;
 	}
 	div:hover {
 	  width: 400px;
@@ -963,6 +963,7 @@ animation-name属性主要是用来调用 @keyframes 定义好的动画。需要
 	}
 
 
+test
 
 
 
@@ -983,7 +984,7 @@ animation-name属性主要是用来调用 @keyframes 定义好的动画。需要
 [image-15]:	15.jpeg
 [image-16]:	16.jpeg
 [image-17]:	17.jpeg
-[image-18]:	18.jprg
-[image-19]:	19.jpg
+[image-18]:	18.jpeg
+[image-19]:	19.jpeg
 [image-20]:	20.jpeg
 [image-21]:	21.jpeg
