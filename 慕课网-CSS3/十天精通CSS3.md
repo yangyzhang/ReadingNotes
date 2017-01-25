@@ -397,7 +397,25 @@ text-shadow可以用来设置文本的阴影效果。
 	  color: red;
 	}
  
- 
+
+	实例
+	选择属于其父元素的首个子元素的每个 <p> 元素，并为其设置样式：
+	p:first-child
+	{ 
+	background-color:yellow;
+	}
+	<body>
+	<p>这个段落是其父元素（body）的首个子元素。</p>
+	<h1>欢迎访问我的主页</h1>
+	<p>这个段落不是其父元素的首个子元素。</p>
+	<div>
+	<p>这个段落是其父元素（div）的首个子元素。</p>
+	<p>这个段落不是其父元素的首个子元素。</p>
+	</div>
+	<p><b>注释：</b>对于 IE8 及更早版本的浏览器中的 :first-child，必须声明 <!DOCTYPE>。</p>
+	</body> 
+
+
 
 ### CSS3 结构性伪类选择器—last-child
 
@@ -761,19 +779,22 @@ translate我们分为三种情况：
 3. translateY(Y)仅垂直方向移动（Y轴移动）
 
 
-	在CSS编辑器第9-11行输入正确代码，让不知道宽度和高度的元素实现水平、垂直居中。
+让不知道宽度和高度的元素实现水平、垂直居中。
+
 	.wrapper {
-	  padding: 20px;
-	  background:orange;
-	  color:#fff;
-	  position:absolute;
-	  top:50%;
-	  left:50%;
-	  border-radius: 5px;
-	  -webkit-transform:translate(-50%,-50%);
-	  -moz-transform:translate(-50%,-50%);
-	  transform:translate(-50%,-50%);
-	}
+		  padding: 20px;
+		  background:orange;
+		  color:#fff;
+		  position:absolute;
+		  top:50%;
+		  left:50%;
+		  border-radius: 5px;
+		  -webkit-transform:translate(-50%,-50%);
+		  -moz-transform:translate(-50%,-50%);
+		  transform:translate(-50%,-50%);
+		}
+	
+	
 
 1. top：50%，left：50%，是将色块的左上角定位在了屏幕的中央，但是，整体并不在中央；
 2. translate的百分比是根据自身的宽度和高度来定的，translate(-50%,-50%) 配合 top：50%，left：50% 实现了居中
