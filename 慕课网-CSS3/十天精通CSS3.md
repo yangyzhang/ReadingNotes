@@ -1141,8 +1141,182 @@ animation-duration主要用来设置CSS3动画播放时间，其使用方法和t
 3. forwards会在动画结束之后保持最后一帧的样式效果。
 4. both会在delay的1s内呈现第一帧的样式效果，并且在动画结束之后保持最后一帧的样式效果。
 
+## 第十章 布局样式相关
+
+### CSS3 多列布局——Columns
+
+	columns：<column-width> || <column-count>
+
+- \<column-width\>
+	- 主要用来定义多列中每列的宽度
+- \<column-count\>
+	- 主要用来定义多列中的列数
+
+	举例：要显示2栏显示，每栏宽度为200px，代码为：
+	
+	columns: 200px 2;
+
+	.columns {
+	  width: 500px;
+	  padding: 5px;
+	  border: 1px solid green;
+	  margin: 20px auto; 
+	  -webkit-columns: 150px 3;
+	  -moz-columns: 150px 3;
+	  -o-columns:150px 3;
+	  -ms-columns: 150px 3;
+	  columns: 150px 3;
+	}
+
+### CSS3 多列布局——column-width
+column-width的使用和CSS中的width属性一样，不过不同的是，column-width属性在定义元素列宽的时候，既可以单独使用，也可以和多列属性中其他属性配合使用。其基本语法如下所示 ；
+
+column-width: auto | \<length\>
+
+- auto
+	- 如果column-width设置值为auto或者没有显式的设置值时，元素多列的列宽将由其他属性来决定，比如前面的示例就是由列数column-count来决定。
+- \<length\>
+	- 使用固定值来设置元素列的宽度，其主要是由数值和长度单位组成，不过其值只能是正值，不能为负值。
+
+	.columns {
+	  padding: 5px;
+	  border: 1px solid green;
+	  width: 900px;
+	  margin: 20px auto;
+	  
+	  column-width:200px;
+	  -webkit-column-width:200px;
+	  -o-column-width:200px;
+	  -moz-column-width:200px;
+	  -ms-column-width:200px;
+	  
+	  -webkit-column-count:3;
+	  -moz-column-count:3;
+	  -o-column-count:3;
+	  -ms-column-count:3;
+	  column-count:3;
+	}
+
+### CSS3 多列布局——column-count
+
+column-count属性主要用来给元素指定想要的列数和允许的最大列数。其语法规则：
+
+	column-count：auto | <integer>
+
+- auto
+	- 此值为column-count的默认值，表示元素只有一列，其主要依靠浏览器计算自动设置。
+- \<integer\>
+	- 此值为正整数值，主要用来定义元素的列数，取值为大于0的整数，负值无效。
+### CSS3 列间距column-gap
+
+column-gap主要用来设置列与列之间的间距，其语法规则如下：
+
+	column-gap: normal || <length>
+
+- normal
+	- 默认值，默值为1em（如果你的字号是px，其默认值为你的font-size值）。
+- \<length\>
+	- 此值用来设置列与列之间的距离，其可以使用px,em单位的任何整数值，但不能是负值
+
+### CSS3 列表边框column-rule
+column-rule主要是用来定义列与列之间的**边框宽度、边框样式和边框颜色**。简单点说，就有点类似于常用的border属性。但column-rule是不占用任何空间位置的，在列与列之间改变其宽度不会改变任何列的位置。
+
+为了能有效区分栏目列之间的关系，可以为其设置一个列边框
+
+语法规则：
+
+	column-rule:<column-rule-width>|<column-rule-style>|<column-rule-color>
+
+- column-rule-width
+	- 类似于border-width属性，主要用来定义列边框的宽度，其默认值为“medium”，column-rule-width属性接受任意浮点数，但不接收负值。但也像border-width属性一样，可以使用关键词：medium、thick和thin。
+- column-rule-style
+	- 类似于border-style属性，主要用来定义列边框样式，其默认值为“none”。column-rule-style属性值与border-style属值相同，包括none、hidden、dotted、dashed、solid、double、groove、ridge、inset、outset。
+- column-rule-color
+	- 类似于border-color属性，主要用来定义列边框颜色，其默认值为前景色color的值，使用时相当于border-color。column-rule-color接受所有的颜色。如果不希望显示颜色，也可以将其设置为transparent(透明色)
+
+### CSS3 跨列设置column-span
+
+column-span主要用来定义一个分列元素中的子元素能跨列多少。column-width、column-count等属性能让一元素分成多列，不管里面元素如何排放顺序，他们都是从左向右的放置内容，但有时我们需要基中一段内容或一个标题不进行分列，也就是横跨所有列，此时column-span就可以轻松实现，此属性的语法如下。
+`column-span: none | all`
 
 
+将第一个标题跨越所有列，代码：
+
+	column-span:all;
+
+	h2,
+	p:nth-child(2n){
+	  -webkit-column-span:all;
+	  -moz-column-span:all;
+	  -o-column-span:all;
+	  -ms-column-span:all;
+	  column-span:all;
+	}
+
+### CSS3 盒子模型
+
+在CSS3中新增加了box-sizing属性，能够事先定义盒模型的尺寸解析方式，其语法规则如下：
+
+	box-sizing: content-box | border-box | inherit
+
+- content-box
+	- 默认值，其让元素维持W3C的标准盒模型，也就是说元素的宽度和高度（width/height）等于元素边框宽度（border）加上元素内距（padding）加上元素内容宽度或高度（content width/ height），也就是element width/height = border + padding + content width / height
+- border-box
+	- 重新定义CSS2.1中盒模型组成的模式，让元素维持IE传统的盒模型（IE6以下版本和IE6-7怪异模式），也就是说元素的宽度或高度等于元素内容的宽度或高度。从上面盒模型介绍可知，这里的内容宽度或高度包含了元素的border、padding、内容的宽度或高度（此处的内容宽度或高度＝盒子的宽度或高度—边框—内距）。
+- inherit
+	- 使元素继承父元素的盒模型模式
+
+![][image-23]
+
+### CSS3 伸缩布局
+
+CSS3引入了一种新的布局模式——**Flexbox布局**，即伸缩布局盒模型（Flexible Box），用来提供一个更加有效的方式制定、调整和分布一个容器里项目布局，即使它们的大小是未知或者动态的，这里简称为Flex。
+
+
+综合而言，Flexbox布局功能主要具有以下几点：
+
+1. 屏幕和浏览器窗口大小发生改变也可以灵活调整布局；
+2. 可以指定伸缩项目沿着主轴或侧轴按比例分配额外空间（伸缩容器额外空间），从而调整伸缩项目的大小；
+3. 可以指定伸缩项目沿着主轴或侧轴将伸缩容器额外空间，分配到伸缩项目之前、之后或之间；
+4. 可以指定如何将垂直于元素布局轴的额外空间分布到该元素的周围；
+5. 可以控制元素在页面上的布局方向；
+6. 可以按照不同于文档对象模型（DOM）所指定排序方式对屏幕上的元素重新排序。也就是说可以在浏览器渲染中不按照文档流先后顺序重排伸缩项目顺序。
+
+
+Flexbox规范版本众多，浏览器对此语法支持度也各有不同，接下来的内容以最新语法版本为例向大家展示：
+
+- 创建一个flex容器
+	-  任何一个flexbox布局的第一步是需要创建一个flex容器。为此给元素设置display属性的值为flex。在Safari浏览器中，你依然需要添加前缀-webkit，
+
+		.flexcontainer{ display: -webkit-flex; display: flex; }
+
+- Flex项目显示
+	- Flex项目是Flex容器的子元素。他们沿着主要轴和横轴定位。默认的是沿着水平轴排列一行。你可以通过flex-direction来改变主轴方向修改为column，其默认值是row。
+
+- Flex项目列显示
+
+	.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+
+- .Flex项目移动到顶部
+	- 如何将flex项目移动到顶部，取决于主轴的方向。如果它是垂直的方向通过align-items设置；如果它是水平的方向通过justify-content设置。
+
+`.flexcontainer{ -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: flex-start; justify-content: flex-start; }`
+
+
+- Flex项目移到左边
+	- flex项目称动到左边或右边也取决于主轴的方向。如果flex-direction设置为row，设置justify-content控制方向；如果设置为column，设置align-items控制方向。
+
+- Flex项目移动右边
+
+	.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; -webkit-justify-content: flex-end; justify-content: flex-end; }
+
+- 7.水平垂直居中
+	- 在Flexbox容器中制作水平垂直居中是微不足道的。设置justify-content或者align-items为center。另外根据主轴的方向设置flex-direction为row或column。
+
+- Flex项目实现自动伸缩
+- 您可以定义一个flex项目，如何相对于flex容器实现自动的伸缩。需要给每个flex项目设置flex属性设置需要伸缩的值。
+
+	.bigitem{ -webkit-flex:200; flex:200; }  .smallitem{ -webkit-flex:100; flex:100; }
 
 [image-1]:	1.png
 [image-2]:	2.png
@@ -1166,3 +1340,4 @@ animation-duration主要用来设置CSS3动画播放时间，其使用方法和t
 [image-20]:	20.jpeg
 [image-21]:	21.jpeg
 [image-22]:	22.png
+[image-23]:	23.jpeg
