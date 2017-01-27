@@ -976,14 +976,170 @@ animation-name属性主要是用来调用 @keyframes 定义好的动画。需要
 	  height: 20px;
 	  background: orange;
 	  border-radius: 100%;
-	  animation:around;
+	  animation-name:around;
 	  animation-duration: 10s;
 	  animation-timing-function: ease;
 	  animation-delay: 1s;
 	  animation-iteration-count:infinite;
 	}
 
+### CSS3中设置动画播放时间
+animation-duration主要用来设置CSS3动画播放时间，其使用方法和transition-duration类似，是用来指定元素播放动画所持续的时间长，也就是完成从0%到100%一次动画所需时间。单位：S秒
 
+	@keyframes toradius{
+	  from {
+	    border-radius: 0;
+	  }
+	  to {
+	    border-radius: 100%;
+	  }
+	}
+	div {
+	  width: 200px;
+	  height: 200px;
+	  line-height: 200px;
+	  text-align: center;
+	  color: #fff;
+	  background: green;
+	  margin: 20px auto;
+	}
+	div:hover {
+	  animation-name: toradius;
+	  animation-duration: 10s;
+	  animation-timing-function: ease-in-out;
+	  animation-delay: .1s;
+	}
+
+### CSS3中设置动画播放方式
+**animation-timing-function**属性主要用来设置动画播放方式。主要让元素根据时间的推进来改变属性值的变换速率，简单点说就是动画的播放方式。
+
+	animation-timing-function:ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier(<number>, <number>, <number>, <number>) [, ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier(<number>, <number>, <number>, <number>)]*
+
+
+### CSS3中设置动画开始播放的时间
+**animation-delay**属性用来定义动画开始播放的时间，用来触发动画播放的时间点。和transition-delay属性一样，用于定义在浏览器开始执行动画之前等待的时间。
+
+### CSS3中设置动画播放次数
+**animation-iteration-count**属性主要用来定义动画的播放次数。
+
+	animation-iteration-count: infinite | <number> [, infinite | <number>]*
+
+1. 其值通常为整数，但也可以使用带有小数的数字，其默认值为1，这意味着动画将从开始到结束只播放一次。
+2. 如果取值为infinite，动画将会无限次的播放。
+
+### CSS3中设置动画播放方向
+**animation-direction**属性主要用来设置动画播放方向，其语法规则如下：
+
+	animation-direction:normal | alternate [, normal | alternate]*
+
+其主要有两个值：normal、alternate
+
+1. normal是默认值，如果设置为normal时，动画的每次循环都是向前播放；
+2. 另一个值是alternate，奇数次播放动画是按顺序播放各帧动画，偶数次播放动画是按逆序播放各帧动画。
+
+### CSS3中设置动画的播放状态
+**animation-play-state**属性主要用来控制元素动画的播放状态。
+
+参数：
+其主要有两个值：running和paused。
+
+其中running是其默认值，主要作用就是类似于音乐播放器一样，可以通过paused将正在播放的动画停下来，也可以通过running将暂停的动画重新播放，这里的重新播放不一定是从元素动画的开始播放，而是从暂停的那个位置开始播放。另外如果暂停了动画的播放，元素的样式将回到最原始设置状态。
+
+	@keyframes move {
+	  0%{
+	    transform: translateY(90px);
+	  }
+	  15%{
+	    transform: translate(90px,90px);
+	  }
+	  30%{
+	    transform: translate(180px,90px);
+	  }
+	  45%{
+	    transform: translate(90px,90px);
+	  }
+	  60%{
+	    transform: translate(90px,0);
+	  }
+	  75%{
+	    transform: translate(90px,90px);
+	  }
+	  90%{
+	    transform: translate(90px,180px);
+	  }
+	  100%{
+	    transform: translate(90px,90px);
+	  }
+	}
+	
+	div {
+	  width: 200px;
+	  height: 200px;
+	  border: 1px solid red;
+	  margin: 20px auto;
+	}
+	span {
+	  display: inline-block;
+	  width: 20px;
+	  height: 20px;
+	  background: orange;
+	  transform: translateY(90px);
+	  animation-name: move;
+	  animation-duration: 10s;
+	  animation-timing-function: ease-in;
+	  animation-delay: .2s;
+	  animation-iteration-count:infinite;
+	  animation-direction:alternate;
+	  animation-play-state:running;
+	}
+	div:hover span {
+	  animation-play-state:paused;
+	}
+
+### CSS3中设置动画时间外属性
+
+**animation-fill-mode**属性定义在动画开始之前和结束之后发生的操作。主要具有四个属性值：none、forwards、backwords和both。其四个属性值对应效果如下：
+
+![][image-22]
+
+	@keyframes redToBlue{
+	  from{
+	    background: red;
+	  }
+	  20%{
+	      background:green;
+	  }
+	  40%{
+	      background:lime;
+	  }
+	  60%{
+	      background:yellow;
+	  }
+	  to{
+	    background:blue;
+	  }
+	}
+	
+	div {
+	  width: 200px;
+	  height: 200px;
+	  background: red;
+	  margin: 20px auto;
+	  animation-name:redToBlue;
+	  animation-duration: 20s;
+	  animation-timing-function: ease;
+	  animation-delay: 1s;
+	  animation-fill-mode: backwards; 
+	}
+
+
+
+将div的默认样式改成黑色就很好看清楚了。如果没有animation-delay的话没有区别，加了delay：1s之后，
+
+1. none在delay的1s内会呈现初始样式效果。
+2. backwards在delay的1s内会呈现第一帧的样式效果。
+3. forwards会在动画结束之后保持最后一帧的样式效果。
+4. both会在delay的1s内呈现第一帧的样式效果，并且在动画结束之后保持最后一帧的样式效果。
 
 
 
@@ -1009,3 +1165,4 @@ animation-name属性主要是用来调用 @keyframes 定义好的动画。需要
 [image-19]:	19.jpeg
 [image-20]:	20.jpeg
 [image-21]:	21.jpeg
+[image-22]:	22.png
