@@ -396,8 +396,8 @@ text-shadow可以用来设置文本的阴影效果。
 	ol > li:first-child{
 	  color: red;
 	}
- 
-
+	
+	
 	实例
 	选择属于其父元素的首个子元素的每个 <p> 元素，并为其设置样式：
 	p:first-child
@@ -782,19 +782,19 @@ translate我们分为三种情况：
 让不知道宽度和高度的元素实现水平、垂直居中。
 
 	.wrapper {
-		  padding: 20px;
-		  background:orange;
-		  color:#fff;
-		  position:absolute;
-		  top:50%;
-		  left:50%;
-		  border-radius: 5px;
-		  -webkit-transform:translate(-50%,-50%);
-		  -moz-transform:translate(-50%,-50%);
-		  transform:translate(-50%,-50%);
-		}
-	
-	
+	      padding: 20px;
+	      background:orange;
+	      color:#fff;
+	      position:absolute;
+	      top:50%;
+	      left:50%;
+	      border-radius: 5px;
+	      -webkit-transform:translate(-50%,-50%);
+	      -moz-transform:translate(-50%,-50%);
+	      transform:translate(-50%,-50%);
+	    }
+ 
+ 
 
 1. top：50%，left：50%，是将色块的左上角定位在了屏幕的中央，但是，整体并不在中央；
 2. translate的百分比是根据自身的宽度和高度来定的，translate(-50%,-50%) 配合 top：50%，left：50% 实现了居中
@@ -1153,7 +1153,7 @@ animation-duration主要用来设置CSS3动画播放时间，其使用方法和t
 	- 主要用来定义多列中的列数
 
 	举例：要显示2栏显示，每栏宽度为200px，代码为：
-	
+	 
 	columns: 200px 2;
 
 	.columns {
@@ -1183,13 +1183,11 @@ column-width: auto | \<length\>
 	  border: 1px solid green;
 	  width: 900px;
 	  margin: 20px auto;
-	  
 	  column-width:200px;
 	  -webkit-column-width:200px;
 	  -o-column-width:200px;
 	  -moz-column-width:200px;
 	  -ms-column-width:200px;
-	  
 	  -webkit-column-count:3;
 	  -moz-column-count:3;
 	  -o-column-count:3;
@@ -1243,7 +1241,7 @@ column-span主要用来定义一个分列元素中的子元素能跨列多少。
 将第一个标题跨越所有列，代码：
 
 	column-span:all;
-
+	
 	h2,
 	p:nth-child(2n){
 	  -webkit-column-span:all;
@@ -1318,6 +1316,396 @@ Flexbox规范版本众多，浏览器对此语法支持度也各有不同，接�
 
 	.bigitem{ -webkit-flex:200; flex:200; }  .smallitem{ -webkit-flex:100; flex:100; }
 
+## 第十一章 Media Queries 与 Responsive 设计
+
+### Media Queries——媒体类型（一）
+在本节中，将会学到如何使用CSS3中的Media Queries模块来让一个页面适应不同的终端（或屏幕尺寸），从而让你的页面让用户有一个更好的体验。
+
+**Media Queries**
+
+Media Queries是CSS3新增加的一个模块功能，其最大的特色就是通过CSS3来查询媒体，然后调用对应的样式。其实这个功能在CSS2.1中就有出现过，只不过那个时候此功能并不强大，我们最常见的就是给打印设备添加打印样式。随着时代的变化，这个模块功能越来越强大。
+
+了解Media Queries我们需要了解其中的两个重要部分，第一个是媒体类型，第二个是媒体特性。下面的内容我们简单的来了解这两个部分：
+
+#### 一、媒体类型
+
+**媒体类型（Media Type）**在CSS2中是一个常见的属性，也是一个非常有用的属性，可以通过媒体类型对不同的设备指定不同的样式。
+
+W3C总共列出了10种媒体类型。如下表所示：
+
+- All
+	- 所有设备
+- Braille
+	- 盲人用点字法触觉回馈设备
+- Embossed
+	- 盲文打印机
+- Handheld
+	- 便携设备
+- Print
+	- 打印用纸或打印预览视图
+- Projection
+	- 各种投影设备
+- Screen
+	- 电脑显示器
+- Speech
+	- 语音或音频合成器
+- Tv
+	- 电视机类型设备
+- Tty
+	- 使用固定密度字母栅格的媒介，比如电传打字机和终端
+
+**其中Screen、All和Print为最常见的三种媒体类型。**
+
+### media queries——媒体类型（二）
+在实际中媒体类型有近十种之多，实际之中常用的也就那么几种，不过媒体类型的引用方法也有多种，常见的有：**link标签、@import和CSS3新增的@media几种：**
+
+#### link方法
+link方法引入媒体类型其实就是在\<link\>标签引用样式的时候，通过link标签中的media属性来指定不同的媒体类型。如下所示。
+
+	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+
+#### @import方法
+@import可以引用样式文件，同样也可以用来引用媒体类型。@import引入媒体类型主要有两种方式，一种是在样式中通过@import调用另一个样式文件；另一种方法是在\<head\>\</head\>标签中的\<style\>\</style\>中引入，但这种使用方法在IE6\~7都不被支持，如样式文件中调用另一个样式文件时，就可以指定对应的媒体类型。
+
+	@importurl(reset.css) screen;   
+	@importurl(print.css) print;
+	在<head>中的<style>标签中引入媒体类型方法。
+	
+	<head>
+	<style type="text/css">
+	    @importurl(style.css) all;
+	</style>
+	</head>
+
+
+#### @media方法
+@media是CSS3中新引进的一个特性，被称为媒体查询。在页面中也可以通过这个属性来引入媒体类型。@media引入媒体类型和@import有点类似也具有两方式。
+（1）在样式文件中引用媒体类型：
+
+	@media screen {
+	   选择器{/*你的样式代码写在这里…*/}
+	}
+
+（2）使用@media引入媒体类型的方式是在\<head\>标签中的\<style\>中引用。
+
+	<head>
+	<style type="text/css">
+	    @media screen{
+	    选择器{/*你的样式代码写在这里…*/}
+	}
+	</style>
+	</head>
+
+
+### Media Queries使用方法
+Media Queries要如何使用？
+
+Media Queries的使用方法如下。
+
+	@media 媒体类型and （媒体特性）{你的样式}
+
+Media Queries在实际项目中常用的方式:
+
+-  最大宽度max-width
+	- “max-width”是媒体特性中最常用的一个特性，其意思是指媒体类型小于或等于指定的宽度时，样式生效。如：
+
+	@media screen and (max-width:480px){
+	 .ads {
+	   display:none;
+	  }
+	}
+	表示的是：当屏幕小于或等于480px时,页面中的广告区块（.ads）都将被隐藏。
+
+- 最小宽度min-width
+	- “min-width”与“max-width”相反，指的是媒体类型大于或等于指定宽度时，样式生效。
+
+	@media screen and (min-width:900px){
+	.wrapper{width: 980px;}
+	}
+
+
+- 多个媒体特性使用
+	- Media Queries可以使用关键词"and"将多个媒体特性结合在一起。也就是说，一个Media Query中可以包含0到多个表达式，表达式又可以包含0到多个关键字，以及一种媒体类型。
+
+	当屏幕在600px~900px之间时，body的背景色渲染为“#f5f5f5”，如下所示。
+	@media screen and (min-width:600px) and (max-width:900px){
+	  body {background-color:#f5f5f5;}
+	}
+
+- 设备屏幕的输出宽度Device Width
+	- 在智能设备上，例如iPhone、iPad等，还可以根据屏幕设备的尺寸来设置相应的样式（或者调用相应的样式文件）。同样的，对于屏幕设备同样可以使用“min/max”对应参数，如“min-device-width”或者“max-device-width”。
+
+	<link rel="stylesheet" media="screen and (max-device-width:480px)" href="iphone.css" />
+	上面的代码指的是“iphone.css”样式适用于最大设备宽度为480px，比如说iPhone上的显示，这里的“max-device-width”所指的是设备的实际分辨率，也就是指可视面积分辨率。
+
+- not关键词
+	- 使用关键词“not”是用来排除某种制定的媒体类型，也就是用来排除符合表达式的设备。换句话说，not关键词表示对后面的表达式执行取反操作，如：
+
+	@media not print and (max-width: 1200px){样式代码}
+	上面代码表示的是：样式代码将被使用在除打印设备和设备宽度小于1200px下所有设备中。
+
+- only关键词
+	- only用来指定某种特定的媒体类型，可以用来排除不支持媒体查询的浏览器。其实only很多时候是用来对那些不支持Media Query但却支持Media Type的设备隐藏样式表的。其主要有：支持媒体特性的设备，正常调用样式，此时就当only不存在；表示不支持媒体特性但又支持媒体类型的设备，这样就会不读样式，因为其先会读取only而不是screen；另外不支持Media Queries的浏览器，不论是否支持only，样式都不会被采用。如
+
+	<linkrel="stylesheet" media="only screen and (max-device-width:240px)" href="android240.css" />
+
+	在Media Query中如果没有明确指定Media Type，那么其默认为all，如：
+	
+	<linkrel="stylesheet" media="(min-width:701px) and (max-width:900px)" href="mediu.css" />
+
+	另外在样式中，还可以使用多条语句来将同一个样式应用于不同的媒体类型和媒体特性中，指定方式如下所示。
+	
+	<linkrel="stylesheet" type="text/css" href="style.css" media="handheld and (max-width:480px), screen and (min-width:960px)" />
+
+### Responsive设计（一）
+
+响应式设计要考虑元素布局的秩序，而且还需要做到“有求必应”，那就需要满足以下三个条件：
+
+- 网站必须建立灵活的网格基础；
+- 引用到网站的图片必须是可伸缩的；
+- 不同的显示风格，需要在Media Queries上写不同的样式。
+
+要了解Responsive，就得先了解他的一些术语：
+
+1. 流体网格
+
+	流体网格是一个简单的网格系统，这种网格设计参考了流体设计中的网格系统，将每个网格格子使用百分比单位来控制网格大小。这种网格系统最大的好处是让你的网格大小随时根据屏幕尺寸大小做出相对应的比例缩放。
+
+2. 弹性图片
+
+	弹性图片指的是不给图片设置固定尺寸，而是根据流体网格进行缩放，用于适应各种网格的尺寸。而实现方法是比较简单，一句代码就能搞定的事情。
+
+	img {max-width:100%;}
+	不幸的是，这句代码在IE8浏览器存在一个严重的问题，让你的图片会失踪。当然弹性图片在响应式设计中如何更好的实现，到目前为止都还存在争议，也还在不断的改善之中。
+
+为每一个断点提供不同的图片，这是一个比较头痛的事情，因为Media Queries并不能改变图片“src”的属性值，那有没有办分法可以解决呢？
+
+解决方法:  
+使用background-image给元素使用背景图片，显示/隐藏父元素，给父元素使用不同的图片，然后通过Media Queries来控制这些图片显示或隐藏。
+
+	来看一个断点解决图片自适应的例子。
+	
+	<img src="image.jpg" data-src-600px="image-600px.jpg" data-src-800px="image-800px.jpg" alt="" />
+
+	对应的CSS代码：
+	
+	@media (min-device-width:600px){
+	img[data-src-600px]{
+	  content: attr(data-src-600px,url);
+	  }
+	}
+	@media (min-device-width:800px){
+	  img[data-src-800px] {
+	  content:attr(data-src-800px,url);
+	  }
+	}
+
+**请注意：这仅仅是解决响应式图片自适应的一种思路，但这种方案仅仅适配的断点较少。并不太实用，此处仅为扩展同学们的思路。
+
+3. 媒体查询
+
+媒体查询在CSS3中得到了强大的扩展。使用这个属性可以让你的设计根据用户终端设备适配对应的样式。这也是响应式设计中最为关键的。可以说Responsive设计离开了Medial Queries就失去了他生存的意义。
+
+简单的说媒体查询可以根据设备的尺寸，查询出适配的样式。Responsive设计最关注的就是：根据用户的使用设备的当前宽度，你的Web页面将加载一个备用的样式，实现特定的页面风格。
+
+4. 屏幕分辨率
+
+	屏幕分辨简单点说就是用户显示器的分辨率,屏幕分辨率指的是用户使用的设备浏览您的Web页面时的显示屏幕的分辨率
+
+	Responsive设计利用Media Queries属性针对浏览器使用的分辨率来适配对应的CSS样式。因此屏幕分辨率在Responsive设计中是一个很重要的东西，因为只有知道Web页面要在哪种分辨率下显示何种效果，才能调用对应的样式。
+
+5. 主要断点
+
+	主要断点, 简单的描述就是，设备宽度的临界点。在Media Queries中，其中媒体特性“min-width”和“max-width”对应的属性值就是响应式设计中的断点值。简单点说，就是使用主要断点和次要断点，创建媒体查询的条件。而每个断点会对应调用一个样式文件（或者样式代码）
+
+![][image-24]
+
+上图的style.css样式文件运用在Web页面中，但这个样式文件包括了所有风格的样式代码，也就是说所有设备下显示的风格都通过这个样式文件下载下来。当然，在实际中还可以使用另一种方法，也就是在不同的断点加载不同的样式文件，如下图所示。
+
+![][image-25]
+
+上图主要显示的是主要断点，主要断点加载的不同样式文件直接将影响Web的效果。除了主要断点之外，为了满足更多效果时，还可以在这个基础上添次要断点。不过主要断点和次要断点增加之后，需要维护的样式也相应的增加，成本也相对应的增加。因此在实际使用中，需要根据自身产品需求，决定断点。
+
+综合下来，设置断点应把握三个要点：满足主要的断点；有可能的话添加一些别的断点；设置高于1024的桌面断点。
+
+### Responsive布局技巧
+
+在Responsive布局中，可以毫无保留的丢弃：
+
+1. 尽量少用无关紧要的div；
+2. 不要使用内联元素（inline）；
+3. 尽量少用JS或flash；
+4. 丢弃没用的绝对定位和浮动样式；
+5. 摒弃任何冗余结构和不使用100%设置。
+
+有舍才有得，丢弃了一些对Responsive有影响的东东，那么有哪些东东能帮助Responsive确定更好的布局呢？
+
+1. 使用HTML5 Doctype和相关指南；
+2. 重置好你的样式（reset.css）；
+3. 一个简单的有语义的核心布局；
+4. 给重要的网页元素使用简单的技巧，比如导航菜单之类元素。
+
+使用这些技巧，无非是为了保持你的HTML简单干净，而且在你的页面布局中的关键部分（元素）不要过分的依赖现代技巧来实现，比如说CSS3特效或者JS脚本。
+
+### Responsive设计——meta标签
+
+meta标签被称为可视区域meta标签，其使用方法如下。
+
+	<meta name=”viewport” content=”” />
+
+在content属性中主要包括以下属性值，用来处理可视区域。
+
+![][image-26]
+
+在实际项目中，为了让Responsive设计在智能设备中能显示正常，也就是浏览Web页面适应屏幕的大小，显示在屏幕上，可以通过这个可视区域的meta标签进行重置，告诉他使用设备的宽度为视图的宽度，也就是说禁止其默认的自适应页面的效果，具体设置如下：
+
+	<meta name=”viewport” content=”width=device-width,initial-scale=1.0” />
+	
+
+另外一点，由于Responsive设计是结合CSS3的Media Queries属性，才能尽显Responsive设计风格，但大家都清楚，在IE6-8中完全是不支持CSS3 Media。下面我们一起来看看CSS3 Meida Queries在标准设备上的运用，大家可以把这些样式加到你的样式文件中，或者单独创建一个名为“responsive.css”文件，并在相应的条件中写上你的样式，让他适合你的设计需求。
+
+	脚本下载地址： 
+	
+	media-queries.js(http://code.google.com/p/css3-mediaqueries-js/)      
+	
+	 respond.js(https://github.com/scottjehl/Respond)
+	
+	 <!—[if lt IE9]>
+	      <scriptsrc=http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js></script>
+	 ​<![endif]>
+
+### Responsive设计——不同设备的分辨率设置
+
+CSS3 Meida Queries在标准设备上的运用，大家可以把这些样式加到你的样式文件中，或者单独创建一个名为“responsive.css”文件，并在相应的条件中写上你的样式，让他适合你的设计需求：
+
+	1.1024px显屏
+	
+	@media screen and (max-width : 1024px) {                    
+	/* 样式写在这里 */          
+	}     
+	2.800px显屏
+	
+	@media screen and (max-width : 800px) {              
+	/* 样式写在这里 */          
+	}     
+	3.640px显屏
+	
+	@media screen and (max-width : 640px) {              
+	/* 样式写在这*/            
+	}     
+	4.iPad横板显屏
+	
+	@media screen and (max-device-width: 1024px) and (orientation: landscape) {              
+	/* 样式写在这 */            
+	}     
+	5.iPad竖板显屏
+	
+	@media screen and (max-device-width: 768px) and (orientation: portrait) {         
+	/* 样式写在这 */            
+	}     
+	6.iPhone 和 Smartphones
+	
+	@media screen and (min-device-width: 320px) and (min-device-width: 480px) {              
+	/* 样式写在这 */            
+	}     
+	
+
+## 第十二章 用户界面与其它重要属性
+
+### 自由缩放属性resize
+
+为了增强用户体验，CSS3增加了很多新的属性，其中resize就是一个重要的属性，它允许用户通过拖动的方式来修改元素的尺寸来改变元素的大小。到目前为止，可以使用overflow属性的任何容器元素。
+
+resize属性主要是用来改变元素尺寸大小的，其主要目的是增强用户体验。但使用方法却是极其的简单，先从其语法入手。
+
+	resize: none | both | horizontal | vertical | inherit
+
+- none
+	- 用户不能拖动元素修改尺寸大小。
+- both
+	- 用户可以拖动元素，同时修改元素的宽度和高度
+- horizontal
+	- 用户可以拖动元素，仅可以修改元素的宽度，但不能修改元素的高度。
+- vertical
+	- 用户可以拖动元素，仅可以修改元素的高度，但不能修改元素的宽度。
+- inherit
+	- 继承父元素的resize属性值。
+
+	例如：通过resize属性，让文本域可以沿水平方向拖大。代码为：
+	
+	textarea {
+	  -webkit-resize: horizontal;
+	  -moz-resize: horizontal;
+	  -o-resize: horizontal;
+	  -ms-resize: horizontal;
+	  resize: horizontal;
+	}
+
+### CSS3外轮廓属性
+
+外轮廓outline在页面中呈现的效果和边框border呈现的效果极其相似，但和元素边框border完全不同，外轮廓线不占用网页布局空间，不一定是矩形，外轮廓是属于一种动态样式，只有元素获取到焦点或者被激活时呈现。
+outline属性早在CSS2中就出现了，主要是用来在元素周围绘制一条轮廓线，可以起到突出元素的作用。但是并未得到各主流浏览器的广泛支持，在CSS3中对outline作了一定的扩展，在以前的基础上增加新特性。outline属性的基本语法如下：
+
+	outline: ［outline-color］ || [outline-style] || [outline-width] || [outline-offset] || inherit
+
+从语法中可以看出outline和border边框属性的使用方法极其类似。outline-color相当于border-color、outline-style相当于border-style，而outline-width相当于border-width，只不过CSS3给outline属性增加了一个outline-offset属性，其取值说明如下
+
+![][image-27]
+
+### CSS生成内容
+content配合CSS的伪类或者伪元素，一般可以做以下四件事情：
+
+- none
+	- 不生成任何内容
+- attr
+	- 插入标签属性值
+- url
+	- 使用指定的绝对或相对地址插入一个外部资源（图像，声频，视频或浏览器支持的其他任何资源）
+- string
+	- 插入字符串
+
+	实例展示：
+	
+	在CSS中有一种清除浮动的方法叫“clearfix”。而这个“clearfix”方法就中就使用了“content”，只不过只是在这里插入了一个空格。如下所示：
+	
+	.clearfix:before,
+	
+	.clearfix:after {
+	
+	       content:””;
+	
+	       display:table;
+	
+	}
+	
+	.clearfix:after {
+	
+	       clear:both;
+	
+	       overflow:hidden;
+	
+	}
+	
+
+上面这个示例是最常见的，也是最简单的，我们再来看一个插入元素属性值的方法。
+
+假设我们有一个元素：
+\<a href="##" title="我是一个title属性值，我插在你的后面"\>我是元素\</a\>
+可以通过”:after”和”content:attr(title)”将元素的”title”值插入到元素内容“我是元素”之后：
+
+	a:after {
+	
+	  content:attr(title);
+	
+		   color:#f00;
+	
+	}
+	
+
+![][image-28]
+
+
 [image-1]:	1.png
 [image-2]:	2.png
 [image-3]:	3.jpeg
@@ -1340,4 +1728,9 @@ Flexbox规范版本众多，浏览器对此语法支持度也各有不同，接�
 [image-20]:	20.jpeg
 [image-21]:	21.jpeg
 [image-22]:	22.png
-[image-23]:	23.jpeg
+[image-23]:	22.png
+[image-24]:	23.jpg
+[image-25]:	24.jpg
+[image-26]:	25.jpg
+[image-27]:	26.png
+[image-28]:	27.jpg
