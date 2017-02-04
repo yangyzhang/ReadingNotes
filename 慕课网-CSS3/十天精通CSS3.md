@@ -1268,6 +1268,8 @@ column-span主要用来定义一个分列元素中的子元素能跨列多少。
 
 ### CSS3 伸缩布局
 
+更为详细具体的内容：[http://www.xingbofeng.com/css-grid-flex/flex/baseflex.html][1]
+
 CSS3引入了一种新的布局模式——**Flexbox布局**，即伸缩布局盒模型（Flexible Box），用来提供一个更加有效的方式制定、调整和分布一个容器里项目布局，即使它们的大小是未知或者动态的，这里简称为Flex。
 
 
@@ -1705,6 +1707,8 @@ content配合CSS的伪类或者伪元素，一般可以做以下四件事情：
 
 ![][image-28]
 
+
+[1]:	http://www.xingbofeng.com/css-grid-flex/flex/baseflex.html
 
 [image-1]:	1.png
 [image-2]:	2.png
